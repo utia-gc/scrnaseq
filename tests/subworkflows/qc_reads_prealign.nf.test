@@ -22,7 +22,6 @@ nextflow_workflow {
                         file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000.fastq.gz")
                     ]
                 ]
-                input[1] = Channel.of(file("https://github.com/ewels/MultiQC_TestData/raw/master/data/modules/cutadapt/v2.10/SAMPLE3_SE.cutadapt.log"))
                 """
             }
         }
@@ -35,9 +34,8 @@ nextflow_workflow {
             // test output for full MultiQC
             assert workflow.out.multiqc
             with(workflow.out.multiqc.get(0)) {
-                assert size() == 2
+                assert size() == 1
                 assert get(0) ==~ /^.*\/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000_fastqc.zip/
-                assert get(1) ==~ /^.*\/SAMPLE3_SE.cutadapt.log/
             }
         }
 
@@ -62,7 +60,6 @@ nextflow_workflow {
                         file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz")
                     ]
                 ]
-                input[1] = Channel.of(file("https://github.com/ewels/MultiQC_TestData/raw/master/data/modules/cutadapt/v2.10/SAMPLE3_SE.cutadapt.log"))
                 """
             }
         }
@@ -75,10 +72,9 @@ nextflow_workflow {
             // test output for full MultiQC
             assert workflow.out.multiqc
             with(workflow.out.multiqc.get(0)) {
-                assert size() == 3
+                assert size() == 2
                 assert get(0) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000_fastqc.zip/
                 assert get(1) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000_fastqc.zip/
-                assert get(2) ==~ /^.*\/SAMPLE3_SE.cutadapt.log/
             }
         }
 

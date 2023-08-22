@@ -6,7 +6,6 @@ workflow CHECK_QUALITY {
     take:
         reads_raw
         reads_prealign
-        trim_log
 
     main:
         if(!params.skipRawReadsQC) {
@@ -18,8 +17,7 @@ workflow CHECK_QUALITY {
 
         if(!params.skipPrealignReadsQC) {
             QC_Reads_Prealign(
-                reads_prealign,
-                trim_log
+                reads_prealign
             )
             ch_multiqc_reads_prealign = QC_Reads_Prealign.out.multiqc
         } else {

@@ -15,7 +15,7 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 15
+            assert workflow.trace.succeeded().size() == 13
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/fastqc/SRR1066657_S3_L001_R1_001_fastqc.html").exists()
@@ -30,23 +30,20 @@ nextflow_pipeline {
             assert path("${params.publishDirReports}/fastqc/SRR6924569_S1_L002_R1_001_fastqc.zip").exists()
             assert path("${params.publishDirReports}/fastqc/SRR6924569_S1_L002_R2_001_fastqc.html").exists()
             assert path("${params.publishDirReports}/fastqc/SRR6924569_S1_L002_R2_001_fastqc.zip").exists()
-            // test trimmed reads logs published to data dir
-            assert path("${params.publishDirReports}/reads/trim/SRR1066657_cutadapt-log.txt").exists()
-            assert path("${params.publishDirReports}/reads/trim/SRR6924569_cutadapt-log.txt").exists()
             // test prealign FastQC html reports and zip files published to reports dir
-            assert path("${params.publishDirReports}/fastqc/SRR1066657_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR1066657_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R2_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R2_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR1066657_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR1066657_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R2_fastqc.zip").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data/").exists()
             assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data/").exists()
-            assert path("${params.publishDirReports}/multiqc/ngs/ngs.html").exists()
-            assert path("${params.publishDirReports}/multiqc/ngs/ngs_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html").exists()
+            assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data/").exists()
         }
 
     }
@@ -65,7 +62,7 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 13
+            assert workflow.trace.succeeded().size() == 11
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/fastqc/SRR1066657_S3_L001_R1_001_fastqc.html").exists()
@@ -80,23 +77,20 @@ nextflow_pipeline {
             assert path("${params.publishDirReports}/fastqc/SRR6924569_S1_L002_R1_001_fastqc.zip").exists()
             assert path("${params.publishDirReports}/fastqc/SRR6924569_S1_L002_R2_001_fastqc.html").exists()
             assert path("${params.publishDirReports}/fastqc/SRR6924569_S1_L002_R2_001_fastqc.zip").exists()
-            // test trimmed reads logs published to data dir
-            assert path("${params.publishDirReports}/reads/trim/SRR1066657_cutadapt-log.txt").exists()
-            assert path("${params.publishDirReports}/reads/trim/SRR6924569_cutadapt-log.txt").exists()
             // test prealign FastQC html reports and zip files published to reports dir
-            assert path("${params.publishDirReports}/fastqc/SRR1066657_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR1066657_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R2_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/SRR6924569_trimmed_R2_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR1066657_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR1066657_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/fastqc/SRR6924569_R2_fastqc.zip").exists()
             // test MultiQC reports and data published to reports dir
             assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data/").exists()
             assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data/").exists()
-            assert path("${params.publishDirReports}/multiqc/ngs/ngs.html").exists()
-            assert path("${params.publishDirReports}/multiqc/ngs/ngs_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html").exists()
+            assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data/").exists()
         }
 
     }

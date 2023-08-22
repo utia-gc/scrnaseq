@@ -44,7 +44,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:26:04+0000"
+        "timestamp": "2023-08-22T15:41:59+0000"
     },
     "successfully creates read channels from single-end samplesheet.": {
         "content": [
@@ -91,7 +91,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:26:04+0000"
+        "timestamp": "2023-08-22T15:41:59+0000"
     },
     "Parse_Design successfully creates read channels from single-end samplesheet.": {
         "content": [
@@ -138,7 +138,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:26:04+0000"
+        "timestamp": "2023-08-22T15:41:59+0000"
     },
     "Parse_Design successfully creates read channels from mixed single-end and paired-end samplesheet.": {
         "content": [
@@ -225,7 +225,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:26:04+0000"
+        "timestamp": "2023-08-22T15:41:59+0000"
     },
     "successfully creates read channels from paired-end samplesheet.": {
         "content": [
@@ -276,7 +276,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:26:04+0000"
+        "timestamp": "2023-08-22T15:41:59+0000"
     },
     "successfully creates read channels from mixed single-end and paired-end samplesheet.": {
         "content": [
@@ -363,7 +363,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:26:04+0000"
+        "timestamp": "2023-08-22T15:41:59+0000"
     },
     "Parse_Design successfully creates read channels from paired-end samplesheet.": {
         "content": [
@@ -371,49 +371,57 @@
                 "0": [
                     [
                         {
-                            "sampleName": "SRR6924569_GSM3073206_Saccharomyces_cerevisiae-AR_Biological_Repeat-2",
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "sampleNumber": "1",
+                            "lane": "001",
                             "readType": "paired"
                         },
                         [
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924569_GSM3073206_Saccharomyces_cerevisiae-AR_Biological_Repeat-2_Saccharomyces_cerevisiae_RNA-Seq_1_50000.fastq.gz",
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924569_GSM3073206_Saccharomyces_cerevisiae-AR_Biological_Repeat-2_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz"
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001.fastq.gz",
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R2_001.fastq.gz"
                         ]
                     ],
                     [
                         {
-                            "sampleName": "SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1",
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "sampleNumber": "1",
+                            "lane": "002",
                             "readType": "paired"
                         },
                         [
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000.fastq.gz",
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz"
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001.fastq.gz",
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001.fastq.gz"
                         ]
                     ]
                 ],
                 "samples": [
                     [
                         {
-                            "sampleName": "SRR6924569_GSM3073206_Saccharomyces_cerevisiae-AR_Biological_Repeat-2",
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "sampleNumber": "1",
+                            "lane": "001",
                             "readType": "paired"
                         },
                         [
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924569_GSM3073206_Saccharomyces_cerevisiae-AR_Biological_Repeat-2_Saccharomyces_cerevisiae_RNA-Seq_1_50000.fastq.gz",
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924569_GSM3073206_Saccharomyces_cerevisiae-AR_Biological_Repeat-2_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz"
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001.fastq.gz",
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R2_001.fastq.gz"
                         ]
                     ],
                     [
                         {
-                            "sampleName": "SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1",
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "sampleNumber": "1",
+                            "lane": "002",
                             "readType": "paired"
                         },
                         [
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000.fastq.gz",
-                            "/trev-f/SRAlign-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz"
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001.fastq.gz",
+                            "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001.fastq.gz"
                         ]
                     ]
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:26:04+0000"
+        "timestamp": "2023-08-22T15:41:59+0000"
     }
 }

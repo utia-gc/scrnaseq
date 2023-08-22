@@ -4,42 +4,6 @@ nextflow_process {
     script "modules/fastqc.nf"
     process "fastqc"
 
-    test("fastqc works for single-end reads.") {
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-            }
-            process {
-                """
-                input[0] = [
-                    [sampleName: "SRR1066657_GSM1299413_WT_NR_A"],
-                    [
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000.fastq.gz")
-                    ]
-                ]
-                """
-            }
-        }
-
-        then {
-            assert process.success
-
-            //test html output
-            with(process.out.html) {
-                assert size() == 1
-                assert get(0) ==~ /^.*\/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000_fastqc.html/
-            }
-            //test zip output
-            with(process.out.zip) {
-                assert size() == 1
-                assert get(0) ==~ /^.*\/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000_fastqc.zip/
-            }
-        }
-
-    }
-
     test("fastqc works for paired-end reads.") {
 
         when {

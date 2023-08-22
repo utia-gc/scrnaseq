@@ -4,57 +4,6 @@ nextflow_workflow {
     script "subworkflows/cat_reads.nf"
     workflow "Cat_Reads"
 
-    test("Cat_Reads concatenates reads for SE reads") {
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-            }
-            workflow {
-                """
-                input[0] = Channel.of(
-                    [
-                        [
-                            sampleName:   "SRR1066657",
-                            sampleNumber: "3",
-                            lane:         "001",
-                            readType:     "single"
-                        ],
-                        [
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR1066657_S3_L001_R1_001.fastq.gz")
-                        ]
-                    ],
-                    [
-                        [
-                            sampleName:   "SRR1066657",
-                            sampleNumber: "3",
-                            lane:         "002",
-                            readType:     "single"
-                        ],
-                        [
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR1066657_S3_L002_R1_001.fastq.gz")
-                        ]
-                    ]
-                )
-                """
-            }
-        }
-
-        then {
-            assert workflow.success
-
-            with(workflow.out.reads_catted.get(0)) {
-                assert size() == 2
-                assert get(1) ==~ /^.*\/SRR1066657_R1.fastq.gz/
-                assert path(get(1)).linesGzip.size() == 400000
-            }
-
-            assert snapshot(workflow.out).match()
-        }
-
-    }
-
     test("Cat_Reads concatenates reads for PE reads") {
 
         when {

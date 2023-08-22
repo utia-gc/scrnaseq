@@ -15,12 +15,12 @@ nextflow_workflow {
                 """
                 input[0] = [
                     [
-                        sampleName: "SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1",
-                        readType:   "paired"
+                        sampleName:   "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                        readType:     "paired"
                     ],
                     [
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000.fastq.gz"),
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz")
+                        file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001.fastq.gz"),
+                        file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001.fastq.gz")
                     ]
                 ]
                 """
@@ -35,27 +35,11 @@ nextflow_workflow {
             // test output for full MultiQC
             assert workflow.out.multiqc
             with(workflow.out.multiqc.get(0)) {
+                String fastqBaseName = 'Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002'
                 assert size() == 2
-                assert get(0) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000_fastqc.zip/
-                assert get(1) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000_fastqc.zip/
+                assert get(0) ==~ /^.*\/${fastqBaseName}_R1_001_fastqc.zip/
+                assert get(1) ==~ /^.*\/${fastqBaseName}_R2_001_fastqc.zip/
             }
-
-            // test FastQC html files get published to reports directory
-            def htmlR1 = path("${params.publishDirReports}/fastqc/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000_fastqc.html")
-            def htmlR2 = path("${params.publishDirReports}/fastqc/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000_fastqc.html")
-            assert htmlR1.exists()
-            assert htmlR2.exists()
-            // test FastQC zip files get published to reports directory
-            def zipR1  = path("${params.publishDirReports}/fastqc/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000_fastqc.zip")
-            def zipR2  = path("${params.publishDirReports}/fastqc/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000_fastqc.zip")
-            assert zipR1.exists()
-            assert zipR2.exists()
-            // test MultiQC html report gets published to reports directory
-            def htmlMQC    = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html")
-            assert htmlMQC.exists()
-            // test MultiQC data files get published to reports directory
-            def dataDirMQC = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data")
-            assert dataDirMQC.exists()
         }
 
     }

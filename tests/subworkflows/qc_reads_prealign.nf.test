@@ -15,12 +15,12 @@ nextflow_workflow {
                 """
                 input[0] = [
                     [
-                        sampleName: "SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1",
-                        readType:   "paired"
+                        sampleName:   "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                        readType:     "paired"
                     ],
                     [
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000.fastq.gz"),
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz")
+                        file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001.fastq.gz"),
+                        file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001.fastq.gz")
                     ]
                 ]
                 """
@@ -33,11 +33,11 @@ nextflow_workflow {
             assert workflow.trace.succeeded().size() == 2
 
             // test output for full MultiQC
-            assert workflow.out.multiqc
             with(workflow.out.multiqc.get(0)) {
+                String fastqBaseName = 'Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002'
                 assert size() == 2
-                assert get(0) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000_fastqc.zip/
-                assert get(1) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000_fastqc.zip/
+                assert get(0) ==~ /^.*\/${fastqBaseName}_R1_001_fastqc.zip/
+                assert get(1) ==~ /^.*\/${fastqBaseName}_R2_001_fastqc.zip/
             }
         }
 

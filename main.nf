@@ -29,11 +29,9 @@ workflow {
 
     PROCESS_READS(ch_reads_raw)
     ch_reads_pre_align = PROCESS_READS.out.reads_pre_align
-    ch_trim_log        = PROCESS_READS.out.trim_log
 
     CHECK_QUALITY(
         ch_reads_raw,
-        ch_reads_pre_align,
-        ch_trim_log
+        ch_reads_pre_align
     )
 }

@@ -10,7 +10,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:09:12+0000"
+        "timestamp": "2023-08-22T16:22:52+0000"
     },
     "gzip successfully unzips GZIP-compressed fasta file.": {
         "content": [
@@ -23,6 +23,19 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-01T21:09:12+0000"
+        "timestamp": "2023-08-22T16:22:52+0000"
+    },
+    "gunzip successfully unzips GZIP-compressed GTF file.": {
+        "content": [
+            {
+                "0": [
+                    "GRCh38.p14_genomic_NC_000021.9.gtf:md5,5dbd6627231b875a9e62136f8dfe2923"
+                ],
+                "gunzip": [
+                    "GRCh38.p14_genomic_NC_000021.9.gtf:md5,5dbd6627231b875a9e62136f8dfe2923"
+                ]
+            }
+        ],
+        "timestamp": "2023-08-22T16:22:52+0000"
     }
 }

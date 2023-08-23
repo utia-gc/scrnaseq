@@ -5,6 +5,8 @@ nextflow_process {
     process "cellranger_mkgtf"
 
     test("cellranger_mkgtf filters protein coding genes -- RefSeq GTF.") {
+        // instantiate instances of helper classes
+        def refs = new RefsRefSeq()
 
         when {
             params {
@@ -12,9 +14,6 @@ nextflow_process {
                 publishDirData    = "${outputDir}/data"
             }
             process {
-                // instantiate instances of helper classes
-                def refs = new RefsRefSeq()
-
                 """
                 input[0] = file("${refs.annotations.gtf.decomp}")
                 """
@@ -22,9 +21,6 @@ nextflow_process {
         }
 
         then {
-            // instantiate instances of helper classes
-            def refs = new RefsRefSeq()
-
             // test process status
             assert process.success
 

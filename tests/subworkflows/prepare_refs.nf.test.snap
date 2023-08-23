@@ -16,7 +16,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-02T14:56:21+0000"
+        "timestamp": "2023-08-22T16:38:55+0000"
     },
     "successfully emits uncompressed fasta and GTF files when uncompressed inputs are given.": {
         "content": [
@@ -35,7 +35,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-02T14:56:21+0000"
+        "timestamp": "2023-08-22T16:38:55+0000"
     },
     "successfully unzips and emits GZIP-compressed fasta and GTF files.": {
         "content": [
@@ -54,7 +54,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-02T14:56:21+0000"
+        "timestamp": "2023-08-22T16:38:55+0000"
     },
     "Prepare_Refs successfully unzips and emits GZIP-compressed genome and GTF files.": {
         "content": [
@@ -73,7 +73,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-02T14:56:21+0000"
+        "timestamp": "2023-08-22T16:38:55+0000"
     },
     "Prepare_Refs successfully emits uncompressed fasta and GTF files when uncompressed inputs are given.": {
         "content": [
@@ -92,7 +92,26 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-02T14:56:21+0000"
+        "timestamp": "2023-08-22T16:38:55+0000"
+    },
+    "Prepare_Refs unzips and outputs GZIP-compressed genome and GTF files.": {
+        "content": [
+            {
+                "0": [
+                    "GRCh38.p14_genomic_NC_000021.9.fna:md5,7decb2f4cab1bc058b24c48459469232"
+                ],
+                "1": [
+                    "GRCh38.p14_genomic_NC_000021.9.gtf:md5,5dbd6627231b875a9e62136f8dfe2923"
+                ],
+                "annotations": [
+                    "GRCh38.p14_genomic_NC_000021.9.gtf:md5,5dbd6627231b875a9e62136f8dfe2923"
+                ],
+                "genome": [
+                    "GRCh38.p14_genomic_NC_000021.9.fna:md5,7decb2f4cab1bc058b24c48459469232"
+                ]
+            }
+        ],
+        "timestamp": "2023-08-22T16:38:55+0000"
     },
     "Prepare_Refs successfully emits uncompressed genome and GTF files when uncompressed inputs are given.": {
         "content": [
@@ -111,6 +130,6 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-02T14:56:21+0000"
+        "timestamp": "2023-08-22T16:38:55+0000"
     }
 }

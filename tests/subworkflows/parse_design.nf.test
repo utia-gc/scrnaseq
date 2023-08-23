@@ -4,28 +4,6 @@ nextflow_workflow {
     script "subworkflows/parse_design.nf"
     workflow "Parse_Design"
 
-    test("Parse_Design successfully creates read channels from single-end samplesheet.") {
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-            }
-            workflow {
-                """
-                input[0] = "https://github.com/trev-f/SRAlign-test/raw/rnaseq/samplesheets/samplesheet_se.csv"
-                """
-            }
-        }
-
-        then {
-            assert workflow.success
-            assert workflow.out.samples.size() == 2
-            assert snapshot(workflow.out).match()
-        }
-
-    }
-
     test("Parse_Design successfully creates read channels from paired-end samplesheet.") {
 
         when {
@@ -35,36 +13,43 @@ nextflow_workflow {
             }
             workflow {
                 """
-                input[0] = "https://github.com/trev-f/SRAlign-test/raw/rnaseq/samplesheets/samplesheet_pe.csv"
+                input[0] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/samplesheets/samplesheet_L001_L002.csv"
                 """
             }
         }
 
         then {
+            // test workflow status
             assert workflow.success
-            assert workflow.out.samples.size() == 2
-            assert snapshot(workflow.out).match()
-        }
 
-    }
+            // test creates expected channels of samples
+            with(workflow.out.samples) {
+                assert size() == 2
 
-    test("Parse_Design successfully creates read channels from mixed single-end and paired-end samplesheet.") {
+                // test lane 1
+                LinkedHashMap expectedMetadataLane1 = [
+                    sampleName:   'Chromium_3p_GEX_Human_PBMC_chr21_100000',
+                    sampleNumber: '1',
+                    lane:         '001',
+                    readType:     'paired'
+                ]
+                with(get(0)) {
+                    assert get(0) == expectedMetadataLane1
+                }
 
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
+                // test lane 2
+                LinkedHashMap expectedMetadataLane2 = [
+                    sampleName:   'Chromium_3p_GEX_Human_PBMC_chr21_100000',
+                    sampleNumber: '1',
+                    lane:         '002',
+                    readType:     'paired'
+                ]
+                with(get(1)) {
+                    assert get(0) == expectedMetadataLane2
+                }
             }
-            workflow {
-                """
-                input[0] = "https://github.com/trev-f/SRAlign-test/raw/rnaseq/samplesheets/samplesheet_mix.csv"
-                """
-            }
-        }
 
-        then {
-            assert workflow.success
-            assert workflow.out.samples.size() == 4
+            // test output channels reproducibility
             assert snapshot(workflow.out).match()
         }
 

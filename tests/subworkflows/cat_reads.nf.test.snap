@@ -1,4 +1,35 @@
 {
+    "Cat_Reads concatenates reads -- PE reads": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "readType": "paired"
+                        },
+                        [
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R1.fastq.gz:md5,d7331d848bc1724b309cb8263ab1c35b",
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R2.fastq.gz:md5,08062478b5dcccb147625d632bf88443"
+                        ]
+                    ]
+                ],
+                "reads_catted": [
+                    [
+                        {
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "readType": "paired"
+                        },
+                        [
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R1.fastq.gz:md5,d7331d848bc1724b309cb8263ab1c35b",
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R2.fastq.gz:md5,08062478b5dcccb147625d632bf88443"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2023-08-22T16:34:00+0000"
+    },
     "Cat_Reads concatenates reads for PE reads": {
         "content": [
             {
@@ -28,7 +59,7 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-17T18:59:10+0000"
+        "timestamp": "2023-08-22T16:34:00+0000"
     },
     "Cat_Reads concatenates reads for SE reads": {
         "content": [
@@ -53,7 +84,38 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-17T18:59:10+0000"
+        "timestamp": "2023-08-22T16:34:00+0000"
+    },
+    "Cat_Reads concatenates reads in lexicographic order -- PE reads.": {
+        "content": [
+            {
+                "0": [
+                    [
+                        {
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "readType": "paired"
+                        },
+                        [
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R1.fastq.gz:md5,d7331d848bc1724b309cb8263ab1c35b",
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R2.fastq.gz:md5,08062478b5dcccb147625d632bf88443"
+                        ]
+                    ]
+                ],
+                "reads_catted": [
+                    [
+                        {
+                            "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                            "readType": "paired"
+                        },
+                        [
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R1.fastq.gz:md5,d7331d848bc1724b309cb8263ab1c35b",
+                            "Chromium_3p_GEX_Human_PBMC_chr21_100000_R2.fastq.gz:md5,08062478b5dcccb147625d632bf88443"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2023-08-22T16:34:00+0000"
     },
     "Cat_Reads concatenates reads for PE reads in lexicographic order": {
         "content": [
@@ -84,6 +146,6 @@
                 ]
             }
         ],
-        "timestamp": "2023-08-17T18:59:10+0000"
+        "timestamp": "2023-08-22T16:34:00+0000"
     }
 }

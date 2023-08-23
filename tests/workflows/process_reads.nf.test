@@ -4,61 +4,6 @@ nextflow_workflow {
     script "workflows/process_reads.nf"
     workflow "PROCESS_READS"
 
-    test("PROCESS_READS concatenates reads -- SE reads.") {
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-            }
-            workflow {
-                """
-                input[0] = Channel.of(
-                    [
-                        [
-                            sampleName:   "SRR1066657",
-                            sampleNumber: "3",
-                            lane:         "001",
-                            readType:     "single"
-                        ],
-                        [
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR1066657_S3_L001_R1_001.fastq.gz")
-                        ]
-                    ],
-                    [
-                        [
-                            sampleName:   "SRR1066657",
-                            sampleNumber: "3",
-                            lane:         "002",
-                            readType:     "single"
-                        ],
-                        [
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR1066657_S3_L002_R1_001.fastq.gz")
-                        ]
-                    ]
-                )
-                """
-            }
-        }
-
-        then {
-            // test workflow status
-            assert workflow.success
-            assert workflow.trace.succeeded().size() == 1
-
-            // test read trimming and concatenation
-            with(workflow.out.reads_pre_align) {
-                assert size() == 1
-                with(get(0)) {
-                    assert size() == 2
-                    assert get(1) ==~ /^.*\/SRR1066657_R1.fastq.gz/
-                }
-            }
-            assert snapshot(workflow.out.reads_pre_align).match()
-        }
-
-    }
-
     test("PROCESS_READS concatenates reads -- PE reads.") {
 
         when {
@@ -67,30 +12,34 @@ nextflow_workflow {
                 publishDirData    = "${outputDir}/data"
             }
             workflow {
+                // instantiate instances of helper classes
+                def readsPE1 = new ReadsPE1()
+                def readsPE2 = new ReadsPE2()
+
                 """
                 input[0] = Channel.of(
                     [
                         [
-                            sampleName:   "SRR6924569",
-                            sampleNumber: "1",
-                            lane:         "001",
-                            readType:     "paired"
+                            sampleName:   "${readsPE1.metadata.sampleName}",
+                            sampleNumber: "${readsPE1.metadata.sampleNumber}",
+                            lane:         "${readsPE1.metadata.lane}",
+                            readType:     "${readsPE1.metadata.readType}"
                         ],
                         [
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR6924569_S1_L001_R1_001.fastq.gz"),
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR6924569_S1_L001_R2_001.fastq.gz")
+                            file("${readsPE1.reads[0]}"),
+                            file("${readsPE1.reads[1]}")
                         ]
                     ],
                     [
                         [
-                            sampleName:   "SRR6924569",
-                            sampleNumber: "1",
-                            lane:         "002",
-                            readType:     "paired"
+                            sampleName:   "${readsPE2.metadata.sampleName}",
+                            sampleNumber: "${readsPE2.metadata.sampleNumber}",
+                            lane:         "${readsPE2.metadata.lane}",
+                            readType:     "${readsPE2.metadata.readType}"
                         ],
                         [
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR6924569_S1_L002_R1_001.fastq.gz"),
-                            file("https://github.com/utia-gc/ngs-test/raw/ngs/data/reads/raw/SRR6924569_S1_L002_R2_001.fastq.gz")
+                            file("${readsPE2.reads[0]}"),
+                            file("${readsPE2.reads[1]}")
                         ]
                     ]
                 )
@@ -99,6 +48,10 @@ nextflow_workflow {
         }
 
         then {
+            // instantiate instances of helper classes
+            def readsPE1 = new ReadsPE1()
+            def readsPE2 = new ReadsPE2()
+
             // test workflow status
             assert workflow.success
             assert workflow.trace.succeeded().size() == 1
@@ -108,8 +61,8 @@ nextflow_workflow {
                 assert size() == 1
                 with(get(0)) {
                     assert size() == 2
-                    assert get(1).get(0) ==~ /^.*\/SRR6924569_R1.fastq.gz/
-                    assert get(1).get(1) ==~ /^.*\/SRR6924569_R2.fastq.gz/
+                    assert get(1).get(0) ==~ /^.*\/${readsPE1.metadata.sampleName}_R1.fastq.gz/
+                    assert get(1).get(1) ==~ /^.*\/${readsPE1.metadata.sampleName}_R2.fastq.gz/
                 }
             }
             assert snapshot(workflow.out.reads_pre_align).match()

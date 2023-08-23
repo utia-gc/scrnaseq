@@ -4,42 +4,6 @@ nextflow_process {
     script "modules/fastqc.nf"
     process "fastqc"
 
-    test("fastqc works for single-end reads.") {
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-            }
-            process {
-                """
-                input[0] = [
-                    [sampleName: "SRR1066657_GSM1299413_WT_NR_A"],
-                    [
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000.fastq.gz")
-                    ]
-                ]
-                """
-            }
-        }
-
-        then {
-            assert process.success
-
-            //test html output
-            with(process.out.html) {
-                assert size() == 1
-                assert get(0) ==~ /^.*\/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000_fastqc.html/
-            }
-            //test zip output
-            with(process.out.zip) {
-                assert size() == 1
-                assert get(0) ==~ /^.*\/SRR1066657_GSM1299413_WT_NR_A_Saccharomyces_cerevisiae_RNA-Seq_50000_fastqc.zip/
-            }
-        }
-
-    }
-
     test("fastqc works for paired-end reads.") {
 
         when {
@@ -50,10 +14,15 @@ nextflow_process {
             process {
                 """
                 input[0] = [
-                    [sampleName: "SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1"],
                     [
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000.fastq.gz"),
-                        file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz")
+                        sampleName:   "Chromium_3p_GEX_Human_PBMC_chr21_100000",
+                        sampleNumber: "1",
+                        lane:         "001",
+                        readType:     "paired"
+                    ],
+                    [
+                        file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001.fastq.gz"),
+                        file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R2_001.fastq.gz")
                     ]
                 ]
                 """
@@ -63,17 +32,18 @@ nextflow_process {
         then {
             assert process.success
 
+            String fastqBaseName = 'Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001'
             // test html output
             with(process.out.html.get(0)) {
                 assert size() == 2
-                assert get(0) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000_fastqc.html/
-                assert get(1) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000_fastqc.html/
+                assert get(0) ==~ /^.*\/${fastqBaseName}_R1_001_fastqc.html/
+                assert get(1) ==~ /^.*\/${fastqBaseName}_R2_001_fastqc.html/
             }
             // test zip output
             with(process.out.zip.get(0)) {
                 assert size() == 2
-                assert get(0) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_1_50000_fastqc.zip/
-                assert get(1) ==~ /^.*\/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000_fastqc.zip/
+                assert get(0) ==~ /^.*\/${fastqBaseName}_R1_001_fastqc.zip/
+                assert get(1) ==~ /^.*\/${fastqBaseName}_R2_001_fastqc.zip/
             }
         }
 

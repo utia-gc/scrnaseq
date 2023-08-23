@@ -4,7 +4,7 @@ nextflow_workflow {
     script "subworkflows/prepare_refs.nf"
     workflow "Prepare_Refs"
 
-    test("Prepare_Refs successfully unzips and emits GZIP-compressed genome and GTF files.") {
+    test("Prepare_Refs unzips and outputs GZIP-compressed genome and GTF files.") {
 
         when {
             params {
@@ -13,8 +13,8 @@ nextflow_workflow {
             }
             workflow {
                 """
-                input[0] = "https://github.com/trev-f/SRAlign-test/raw/rnaseq/data/references/R64-1-1/genome_I.fa.gz"
-                input[1] = "https://github.com/trev-f/SRAlign-test/raw/rnaseq/data/references/R64-1-1/annotations_I.gtf.gz"
+                input[0] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/references/GRCh38.p14_genomic_NC_000021.9.fna.gz"
+                input[1] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/references/GRCh38.p14_genomic_NC_000021.9.gtf.gz"
                 """
             }
         }
@@ -26,55 +26,18 @@ nextflow_workflow {
             assert workflow.out.genome
             with(workflow.out.genome) {
                 assert size() == 1
-                assert get(0) ==~ /^.*\/genome_I.fa/
-                assert path(get(0)).md5 == "e050100d0a9a7d06a8accf8424ad0d98"
+                assert get(0) ==~ /^.*\/GRCh38.p14_genomic_NC_000021.9.fna/
             }
 
             assert workflow.out.annotations
             with(workflow.out.annotations) {
                 assert size() == 1
-                assert get(0) ==~ /^.*\/annotations_I.gtf/
-                assert path(get(0)).md5 == "61525d86cb937e0fe5b349215c50498c"
+                assert get(0) ==~ /^.*\/GRCh38.p14_genomic_NC_000021.9.gtf/
             }
 
             assert snapshot(workflow.out).match()
         }
 
-
-    }
-    test("Prepare_Refs successfully emits uncompressed genome and GTF files when uncompressed inputs are given.") {
-
-        when {
-            params {
-                publishDirReports = "${outputDir}/reports"
-                publishDirData    = "${outputDir}/data"
-            }
-            workflow {
-                """
-                input[0] = "https://github.com/trev-f/SRAlign-test/raw/rnaseq/data/references/R64-1-1/genome_I.fa"
-                input[1] = "https://github.com/trev-f/SRAlign-test/raw/rnaseq/data/references/R64-1-1/annotations_I.gtf"
-                """
-            }
-        }
-
-        then {
-            assert workflow.success
-            assert workflow.trace.succeeded().size() == 0
-
-            assert workflow.out.genome
-            with(workflow.out.genome) {
-                assert size() == 1
-                assert get(0) ==~ /^.*\/genome_I.fa/
-            }
-
-            assert workflow.out.annotations
-            with(workflow.out.annotations) {
-                assert size() == 1
-                assert get(0) ==~ /^.*\/annotations_I.gtf/
-            }
-
-            assert snapshot(workflow.out).match()
-        }
 
     }
 

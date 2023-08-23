@@ -1,0 +1,43 @@
+nextflow_workflow {
+
+    name "Test Workflow Cellranger_Create_Reference"
+    script "subworkflows/cellranger_create_reference.nf"
+    workflow "Cellranger_Create_Reference"
+
+    test("Cellranger_Create_Reference creates a custom reference -- RefSeq") {
+        // instantiate instances of helper classes
+        def refs = new RefsRefSeq()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            workflow {
+                """
+                input[0] = file("${refs.sequences.genome.decomp}")
+                input[1] = file("${refs.annotations.gtf.decomp}")
+                """
+            }
+        }
+
+        then {
+            // test workflow status
+            assert workflow.success
+
+            // test genome index has expected files and directories
+            with(workflow.out.genome_index.get(0)) {
+                assert size() == 4
+                assert get(0) ==~ /^.*\/fasta/
+                assert get(1) ==~ /^.*\/genes/
+                assert get(2) ==~ /^.*\/reference\.json/
+                assert get(3) ==~ /^.*\/star/
+            }
+
+            // test workflow reproducibility
+            assert snapshot(workflow.out).match()
+        }
+
+    }
+
+}

@@ -1,0 +1,67 @@
+{
+    "cellranger_mkref filters builds reference -- RefSeq.": {
+        "content": [
+            {
+                "0": [
+                    [
+                        [
+                            "genome.fa:md5,7decb2f4cab1bc058b24c48459469232",
+                            "genome.fa.fai:md5,1e85c9733a2468a606cd72b67451febc"
+                        ],
+                        [
+                            "genes.gtf.gz:md5,3972acad88f862f69a45518dbc849a3a"
+                        ],
+                        "reference.json:md5,820efe902520784a08bb44e9daec4159",
+                        [
+                            "Genome:md5,910e0fcec85162429df87171b83fdbff",
+                            "SA:md5,0f9e849a0bd0222408690296c3a3a4c4",
+                            "SAindex:md5,67549452d30edb95cd30dc1e09857dbc",
+                            "chrLength.txt:md5,b0be0a56ddefa84552742c72d4859eac",
+                            "chrName.txt:md5,e5c544af8e9d62821a913bcac4d7717f",
+                            "chrNameLength.txt:md5,a0d4cc4d28110f64a738a601758c16dd",
+                            "chrStart.txt:md5,6925b594ea2eeb964ba87cd6d42ab98f",
+                            "exonGeTrInfo.tab:md5,1b6be05971db30e41604727b8b3be4f7",
+                            "exonInfo.tab:md5,6fe1c69175066a059cd20ca2e496ef3b",
+                            "geneInfo.tab:md5,4423c5beccb50edf159ebe148b55fe1a",
+                            "genomeParameters.txt:md5,4143a54440c937f289f27f52e21e2f47",
+                            "sjdbInfo.txt:md5,def0f9906cd00619900723ecfe0ba475",
+                            "sjdbList.fromGTF.out.tab:md5,0c0d3c42fa5ed8417f7b7a4472fd3acd",
+                            "sjdbList.out.tab:md5,7605c9a7950d335812573c1afece709e",
+                            "transcriptInfo.tab:md5,7519982fbd8af6dc1a9d8ad07dd98b8d"
+                        ]
+                    ]
+                ],
+                "genome_index": [
+                    [
+                        [
+                            "genome.fa:md5,7decb2f4cab1bc058b24c48459469232",
+                            "genome.fa.fai:md5,1e85c9733a2468a606cd72b67451febc"
+                        ],
+                        [
+                            "genes.gtf.gz:md5,3972acad88f862f69a45518dbc849a3a"
+                        ],
+                        "reference.json:md5,820efe902520784a08bb44e9daec4159",
+                        [
+                            "Genome:md5,910e0fcec85162429df87171b83fdbff",
+                            "SA:md5,0f9e849a0bd0222408690296c3a3a4c4",
+                            "SAindex:md5,67549452d30edb95cd30dc1e09857dbc",
+                            "chrLength.txt:md5,b0be0a56ddefa84552742c72d4859eac",
+                            "chrName.txt:md5,e5c544af8e9d62821a913bcac4d7717f",
+                            "chrNameLength.txt:md5,a0d4cc4d28110f64a738a601758c16dd",
+                            "chrStart.txt:md5,6925b594ea2eeb964ba87cd6d42ab98f",
+                            "exonGeTrInfo.tab:md5,1b6be05971db30e41604727b8b3be4f7",
+                            "exonInfo.tab:md5,6fe1c69175066a059cd20ca2e496ef3b",
+                            "geneInfo.tab:md5,4423c5beccb50edf159ebe148b55fe1a",
+                            "genomeParameters.txt:md5,4143a54440c937f289f27f52e21e2f47",
+                            "sjdbInfo.txt:md5,def0f9906cd00619900723ecfe0ba475",
+                            "sjdbList.fromGTF.out.tab:md5,0c0d3c42fa5ed8417f7b7a4472fd3acd",
+                            "sjdbList.out.tab:md5,7605c9a7950d335812573c1afece709e",
+                            "transcriptInfo.tab:md5,7519982fbd8af6dc1a9d8ad07dd98b8d"
+                        ]
+                    ]
+                ]
+            }
+        ],
+        "timestamp": "2023-08-23T17:37:09+0000"
+    }
+}

@@ -1,0 +1,39 @@
+nextflow_process {
+
+    name "Test Process cellranger_mkgtf"
+    script "modules/cellranger_mkgtf.nf"
+    process "cellranger_mkgtf"
+
+    test("cellranger_mkgtf filters protein coding genes -- RefSeq GTF.") {
+        // instantiate instances of helper classes
+        def refs = new RefsRefSeq()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            process {
+                """
+                input[0] = file("${refs.annotations.gtf.decomp}")
+                """
+            }
+        }
+
+        then {
+            // test process status
+            assert process.success
+
+            // test filtered GTF output
+            with(process.out.gtf_filtered) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/${refs.name}_filtered\.gtf/
+            }
+
+            // test process reproducibility
+            assert snapshot(process.out).match()
+        }
+
+    }
+
+}

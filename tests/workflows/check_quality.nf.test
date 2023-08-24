@@ -37,6 +37,7 @@ nextflow_workflow {
                         file("${reads_prealign.reads[1]}")
                     ]
                 ]
+                input[2] = Channel.of(file("https://github.com/ewels/MultiQC_TestData/raw/master/data/modules/cellranger/cellranger-7.1.0/web_summary.html"))
                 """
             }
         }
@@ -48,7 +49,7 @@ nextflow_workflow {
 
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 5
+            assert workflow.trace.succeeded().size() == 6
 
             // test FastQC html files get published to reports directory
             def htmlR1Raw      = path("${params.publishDirReports}/fastqc/${reads_raw.metadata.sampleName}_S1_L001_R1_001_fastqc.html")
@@ -71,16 +72,20 @@ nextflow_workflow {
             // test MultiQC html reports get published to reports directory
             def htmlMQCRaw         = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html")
             def htmlMQCPrealign    = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html")
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
             def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
             assert htmlMQCRaw.exists()
             assert htmlMQCPrealign.exists()
+            assert htmlMQCMapQuant.exists()
             assert htmlMQCFull.exists()
             // test MultiQC data files get published to reports directory
             def dataDirMQCRaw      = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data")
             def dataDirMQCPrealign = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data")
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
             def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
             assert dataDirMQCRaw.exists()
             assert dataDirMQCPrealign.exists()
+            assert dataDirMQCMapQuant.exists()
             assert dataDirMQCFull.exists()
         }
 
@@ -120,6 +125,7 @@ nextflow_workflow {
                         file("${reads_prealign.reads[1]}")
                     ]
                 ]
+                input[2] = Channel.of(file("https://github.com/ewels/MultiQC_TestData/raw/master/data/modules/cellranger/cellranger-7.1.0/web_summary.html"))
                 """
             }
         }
@@ -131,7 +137,7 @@ nextflow_workflow {
 
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 3
+            assert workflow.trace.succeeded().size() == 4
 
             // test FastQC html files get published to reports directory
             def htmlR1Prealign = path("${params.publishDirReports}/fastqc/${reads_prealign.metadata.sampleName}_S1_L002_R1_001_fastqc.html")
@@ -145,13 +151,17 @@ nextflow_workflow {
             assert zipR2Prealign.exists()
             // test MultiQC html reports get published to reports directory
             def htmlMQCPrealign    = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html")
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
             def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
             assert htmlMQCPrealign.exists()
+            assert htmlMQCMapQuant.exists()
             assert htmlMQCFull.exists()
             // test MultiQC data files get published to reports directory
             def dataDirMQCPrealign = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data")
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
             def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
             assert dataDirMQCPrealign.exists()
+            assert dataDirMQCMapQuant.exists()
             assert dataDirMQCFull.exists()
         }
 
@@ -191,6 +201,7 @@ nextflow_workflow {
                         file("${reads_prealign.reads[1]}")
                     ]
                 ]
+                input[2] = Channel.of(file("https://github.com/ewels/MultiQC_TestData/raw/master/data/modules/cellranger/cellranger-7.1.0/web_summary.html"))
                 """
             }
         }
@@ -202,7 +213,7 @@ nextflow_workflow {
 
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 3
+            assert workflow.trace.succeeded().size() == 4
 
             // test FastQC html files get published to reports directory
             def htmlR1Raw      = path("${params.publishDirReports}/fastqc/${reads_raw.metadata.sampleName}_S1_L001_R1_001_fastqc.html")
@@ -216,13 +227,17 @@ nextflow_workflow {
             assert zipR2Raw.exists()
             // test MultiQC html reports get published to reports directory
             def htmlMQCRaw         = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html")
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
             def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
             assert htmlMQCRaw.exists()
+            assert htmlMQCMapQuant.exists()
             assert htmlMQCFull.exists()
             // test MultiQC data files get published to reports directory
             def dataDirMQCRaw      = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data")
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
             def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
             assert dataDirMQCRaw.exists()
+            assert dataDirMQCMapQuant.exists()
             assert dataDirMQCFull.exists()
         }
 
@@ -259,6 +274,7 @@ nextflow_workflow {
                         file("https://github.com/utia-gc/ngs-test/raw/rnaseq/data/reads/SRR6924589_GSM3073211_Saccharomyces_cerevisiae-AN_Biological_Repeat-1_Saccharomyces_cerevisiae_RNA-Seq_2_50000.fastq.gz")
                     ]
                 ]
+                input[2] = Channel.of(file("https://github.com/ewels/MultiQC_TestData/raw/master/data/modules/cellranger/cellranger-7.1.0/web_summary.html"))
                 """
             }
         }
@@ -266,7 +282,18 @@ nextflow_workflow {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 0
+            assert workflow.trace.succeeded().size() == 2
+
+            // test MultiQC html reports get published to reports directory
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
+            def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
+            assert htmlMQCMapQuant.exists()
+            assert htmlMQCFull.exists()
+            // test MultiQC data files get published to reports directory
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
+            def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
+            assert dataDirMQCMapQuant.exists()
+            assert dataDirMQCFull.exists()
         }
 
     }

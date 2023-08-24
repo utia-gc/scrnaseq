@@ -1,0 +1,48 @@
+nextflow_workflow {
+
+    name "Test Workflow Cellranger_Map_Count"
+    script "subworkflows/cellranger_map_count.nf"
+    workflow "Cellranger_Map_Count"
+
+    test("Cellranger_Map_Count run the `cellranger mkref` and `cellranger count` pipelines from raw inputs -- RefSeq.") {
+        // instantiate instances of helper classes
+        def reads = new ReadsPE1()
+        def refs  = new RefsRefSeq()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            workflow {
+                """
+                input[0] = [
+                    [
+                        sampleName: "${reads.metadata.sampleName}",
+                        readType:   "${reads.metadata.readType}"
+                    ],
+                    [
+                        file("${reads.reads[0]}"),
+                        file("${reads.reads[1]}")
+                    ]
+                ]
+                input[1] = file("${refs.sequences.genome.decomp}")
+                input[2] = file("${refs.annotations.gtf.decomp}")
+                """
+            }
+        }
+
+        then {
+            // test workflow status
+            assert workflow.success
+
+            // test file for multiqc output is produced
+            with(workflow.out.map_count_log) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/web_summary.html/
+            }
+        }
+
+    }
+
+}

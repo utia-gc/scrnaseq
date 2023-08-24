@@ -14,7 +14,7 @@ include { Cellranger_Map_Count } from '../subworkflows/cellranger_map_count.nf'
  * @param gtf The reference annotations GTF file.
  * @return map_quantify_log The log file from mapping and quantification that can be used as direct input for MultiQC.
  */
-workflow MAP_COUNT_READS {
+workflow MAP_QUANTIFY_READS {
     take:
         reads
         genomeFasta

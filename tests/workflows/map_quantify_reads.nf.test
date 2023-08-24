@@ -1,10 +1,10 @@
 nextflow_workflow {
 
-    name "Test Workflow MAP_COUNT_READS"
+    name "Test Workflow MAP_QUANTIFY_READS"
     script "workflows/map_quantify_reads.nf"
-    workflow "MAP_COUNT_READS"
+    workflow "MAP_QUANTIFY_READS"
 
-    test("MAP_COUNT_READS builds index and maps and counts reads -- cellranger count.") {
+    test("MAP_QUANTIFY_READS builds index and maps and counts reads -- cellranger count.") {
         // instantiate instances of helper classes
         def reads = new ReadsPE1()
         def refs  = new RefsRefSeq()

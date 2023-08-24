@@ -4,6 +4,8 @@ nextflow_pipeline {
     script "main.nf"
 
     test("main.nf succeeds with default `nf_test` params") {
+        // instantiate instances of helper classes
+        def reads1 = new ReadsPE1()
 
         when {
             params {
@@ -15,7 +17,7 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 9
+            assert workflow.trace.succeeded().size() == 12
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001_fastqc.html").exists()
@@ -38,6 +40,19 @@ nextflow_pipeline {
             assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data/").exists()
             assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html").exists()
             assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data/").exists()
+            // test cellranger count outputs published to data dir
+            String cellrangerCountOutsPath = "${params.publishDirData}/quant/cellranger/${reads1.metadata.sampleName}/outs"
+            assert path("${cellrangerCountOutsPath}/analysis").exists()
+            assert path("${cellrangerCountOutsPath}/cloupe.cloupe").exists()
+            assert path("${cellrangerCountOutsPath}/filtered_feature_bc_matrix").exists()
+            assert path("${cellrangerCountOutsPath}/filtered_feature_bc_matrix.h5").exists()
+            assert path("${cellrangerCountOutsPath}/metrics_summary.csv").exists()
+            assert path("${cellrangerCountOutsPath}/molecule_info.h5").exists()
+            assert path("${cellrangerCountOutsPath}/possorted_genome_bam.bam").exists()
+            assert path("${cellrangerCountOutsPath}/possorted_genome_bam.bam.bai").exists()
+            assert path("${cellrangerCountOutsPath}/raw_feature_bc_matrix").exists()
+            assert path("${cellrangerCountOutsPath}/raw_feature_bc_matrix.h5").exists()
+            assert path("${cellrangerCountOutsPath}/web_summary.html").exists()
         }
 
     }

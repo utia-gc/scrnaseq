@@ -4,6 +4,12 @@ process cellranger_count {
     label 'cellranger'
     label 'big_mem'
 
+    publishDir(
+        path:    "${params.publishDirData}/quant/cellranger",
+        mode:    "${params.publishMode}",
+        pattern: "${metadata.sampleName}/outs"
+    )
+
     input:
         tuple val(metadata), path(reads)
         path genome_index

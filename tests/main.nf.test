@@ -17,7 +17,7 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 12
+            assert workflow.trace.succeeded().size() == 13
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001_fastqc.html").exists()
@@ -38,6 +38,8 @@ nextflow_pipeline {
             assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data/").exists()
             assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html").exists()
             assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html").exists()
+            assert path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data/").exists()
             assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html").exists()
             assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data/").exists()
             // test cellranger count outputs published to data dir

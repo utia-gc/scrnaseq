@@ -72,7 +72,7 @@ nextflow_workflow {
             // test MultiQC html reports get published to reports directory
             def htmlMQCRaw         = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html")
             def htmlMQCPrealign    = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html")
-            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quant/map_quant.html")
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
             def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
             assert htmlMQCRaw.exists()
             assert htmlMQCPrealign.exists()
@@ -81,7 +81,7 @@ nextflow_workflow {
             // test MultiQC data files get published to reports directory
             def dataDirMQCRaw      = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data")
             def dataDirMQCPrealign = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data")
-            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quant/map_quant_data")
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
             def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
             assert dataDirMQCRaw.exists()
             assert dataDirMQCPrealign.exists()
@@ -151,14 +151,14 @@ nextflow_workflow {
             assert zipR2Prealign.exists()
             // test MultiQC html reports get published to reports directory
             def htmlMQCPrealign    = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html")
-            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quant/map_quant.html")
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
             def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
             assert htmlMQCPrealign.exists()
             assert htmlMQCMapQuant.exists()
             assert htmlMQCFull.exists()
             // test MultiQC data files get published to reports directory
             def dataDirMQCPrealign = path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data")
-            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quant/map_quant_data")
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
             def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
             assert dataDirMQCPrealign.exists()
             assert dataDirMQCMapQuant.exists()
@@ -227,14 +227,14 @@ nextflow_workflow {
             assert zipR2Raw.exists()
             // test MultiQC html reports get published to reports directory
             def htmlMQCRaw         = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html")
-            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quant/map_quant.html")
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
             def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
             assert htmlMQCRaw.exists()
             assert htmlMQCMapQuant.exists()
             assert htmlMQCFull.exists()
             // test MultiQC data files get published to reports directory
             def dataDirMQCRaw      = path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data")
-            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quant/map_quant_data")
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
             def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
             assert dataDirMQCRaw.exists()
             assert dataDirMQCMapQuant.exists()
@@ -285,12 +285,12 @@ nextflow_workflow {
             assert workflow.trace.succeeded().size() == 2
 
             // test MultiQC html reports get published to reports directory
-            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quant/map_quant.html")
+            def htmlMQCMapQuant    = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html")
             def htmlMQCFull        = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html")
             assert htmlMQCMapQuant.exists()
             assert htmlMQCFull.exists()
             // test MultiQC data files get published to reports directory
-            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quant/map_quant_data")
+            def dataDirMQCMapQuant = path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data")
             def dataDirMQCFull     = path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data")
             assert dataDirMQCMapQuant.exists()
             assert dataDirMQCFull.exists()

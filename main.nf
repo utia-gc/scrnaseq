@@ -42,6 +42,7 @@ workflow {
 
     CHECK_QUALITY(
         ch_reads_raw,
-        ch_reads_pre_align
+        ch_reads_pre_align,
+        ch_map_quantify_log
     )
 }

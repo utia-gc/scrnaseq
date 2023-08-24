@@ -1,0 +1,63 @@
+nextflow_workflow {
+
+    name "Test Workflow MAP_COUNT_READS"
+    script "workflows/map_quantify_reads.nf"
+    workflow "MAP_COUNT_READS"
+
+    test("MAP_COUNT_READS builds index and maps and counts reads -- cellranger count.") {
+        // instantiate instances of helper classes
+        def reads = new ReadsPE1()
+        def refs  = new RefsRefSeq()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            workflow {
+                """
+                input[0] = [
+                    [
+                        sampleName: "${reads.metadata.sampleName}",
+                        readType:   "${reads.metadata.readType}"
+                    ],
+                    [
+                        file("${reads.reads[0]}"),
+                        file("${reads.reads[1]}")
+                    ]
+                ]
+                input[1] = file("${refs.sequences.genome.decomp}")
+                input[2] = file("${refs.annotations.gtf.decomp}")
+                """
+            }
+        }
+
+        then {
+            // test workflow status
+            assert workflow.success
+            assert workflow.trace.succeeded().size() == 3
+
+            // test file for multiqc output is produced
+            with(workflow.out.map_quantify_log) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/web_summary.html/
+            }
+
+            // test cellranger count outputs published to data dir
+            String cellrangerCountOutsPath = "${params.publishDirData}/quant/cellranger/${reads.metadata.sampleName}/outs"
+            assert path("${cellrangerCountOutsPath}/analysis").exists()
+            assert path("${cellrangerCountOutsPath}/cloupe.cloupe").exists()
+            assert path("${cellrangerCountOutsPath}/filtered_feature_bc_matrix").exists()
+            assert path("${cellrangerCountOutsPath}/filtered_feature_bc_matrix.h5").exists()
+            assert path("${cellrangerCountOutsPath}/metrics_summary.csv").exists()
+            assert path("${cellrangerCountOutsPath}/molecule_info.h5").exists()
+            assert path("${cellrangerCountOutsPath}/possorted_genome_bam.bam").exists()
+            assert path("${cellrangerCountOutsPath}/possorted_genome_bam.bam.bai").exists()
+            assert path("${cellrangerCountOutsPath}/raw_feature_bc_matrix").exists()
+            assert path("${cellrangerCountOutsPath}/raw_feature_bc_matrix.h5").exists()
+            assert path("${cellrangerCountOutsPath}/web_summary.html").exists()
+        }
+
+    }
+
+}

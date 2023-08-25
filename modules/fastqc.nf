@@ -21,6 +21,7 @@ process fastqc {
         """
         fastqc \
             -q \
+            --threads ${task.cpus} \
             ${reads}
         """
 }

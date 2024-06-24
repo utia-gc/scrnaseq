@@ -22,6 +22,8 @@ process cellranger_count {
         String r1Name = FileUtils.isConventionalFastqName(reads[0].toString()) ? reads[0] : FileUtils.buildConventionalFastqName(metadata, '1')
         String r2Name = FileUtils.isConventionalFastqName(reads[1].toString()) ? reads[1] : FileUtils.buildConventionalFastqName(metadata, '2')
 
+        def args = task.ext.args ?: ''
+
         """
         mkdir -p fastqs
         mv ${reads[0]} fastqs/${r1Name}
@@ -32,6 +34,7 @@ process cellranger_count {
             --fastqs=. \
             --transcriptome=. \
             --localcores=${task.cpus} \
-            --localmem=${(task.memory as String).replaceAll(/\s[KMGT]?B/, '')}
+            --localmem=${(task.memory as String).replaceAll(/\s[KMGT]?B/, '')} \\
+            ${args}
         """
 }

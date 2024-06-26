@@ -20,7 +20,7 @@ include { PREPARE_INPUTS } from "./workflows/prepare_inputs.nf"
 include { PROCESS_READS  } from "./workflows/process_reads.nf"
 
 // Include plugin helper functions
-include { paramsHelp } from 'plugin/nf-schema'
+include { paramsHelp; validateParameters } from 'plugin/nf-schema'
 
 // Print help message with typical command line usage for the pipeline
 if (params.help) {
@@ -28,8 +28,8 @@ if (params.help) {
     exit 0
 }
 
-// Check for required parameters
-PipelineValidator.validateRequiredParams(params, log)
+// Validate input parameters
+validateParameters()
 
 workflow {
     PREPARE_INPUTS(
@@ -54,7 +54,7 @@ workflow {
         ch_reads_pre_align,
         ch_genome,
         ch_annotations,
-        params.tools.map
+        params.mapTool
     )
     ch_alignmentsIndividualSortedByCoord = MAP_READS.out.alignmentsIndividualSortedByCoord
     ch_alignmentsMergedSortedByCoord     = MAP_READS.out.alignmentsMergedSortedByCoord

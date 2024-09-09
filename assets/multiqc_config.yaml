@@ -1,0 +1,26 @@
+ignore_images: false
+
+module_order:
+  - fastqc:
+      name: "FastQC (raw)"
+      anchor: "fastqc_raw"
+      path_filters:
+        - "*_raw_R[12]_fastqc.zip"
+extra_fn_clean_exts:
+  - type: remove
+    pattern: "_raw"
+custom_data:
+  sequencing_depth_raw:
+    file_format: "tsv"
+    plot_type: "generalstats"
+    pconfig:
+      - Depth:
+          title: "Depth (raw)"
+          description: "Count of bases in prealigned reads divided by count of bases in reference genome."
+          suffix: " X"
+  my_genstats:
+    plot_type: "generalstats"
+    file_format: "tsv"
+sp:
+  sequencing_depth_raw:
+    fn: "*_raw_seq-depth.tsv"

@@ -1,6 +1,3 @@
-# Convenience scripts
-Makefile
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -148,5 +145,9 @@ null
 /data
 /reports
 
-# dev environment
-/*.code-workspace
+# VSCode
+*.code-workspace
+
+# Files needed only for development
+/tests/data
+/src

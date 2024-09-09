@@ -266,10 +266,8 @@ nextflow_pipeline {
             assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/raw_feature_bc_matrix.h5").exists()
             assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/web_summary.html").exists()
             // test MultiQC reports and data published to reports dir
-            assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html").exists()
-            assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data/").exists()
-            assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html").exists()
-            assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
+            assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
             assert path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html").exists()
             assert path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data/").exists()
             assert path("${params.publishDirReports}/multiqc/scrnaseq_nf-test/scrnaseq_nf-test.html").exists()

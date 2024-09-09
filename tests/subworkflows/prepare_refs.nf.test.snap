@@ -1,18 +1,22 @@
 {
-    "Prepare_Refs successfully unzips and emits GZIP-compressed fasta and GTF files.": {
+    "Prepare_Refs successfully unzips and emits GZIP-compressed genome and GTF files.": {
         "content": [
             {
                 "0": [
                     "genome_I.fa:md5,e050100d0a9a7d06a8accf8424ad0d98"
                 ],
                 "1": [
+                    "genome_I.fa.fai:md5,2cd76d936cbfa386b14154506c2041b2"
+                ],
+                "2": [
                     "annotations_I.gtf:md5,61525d86cb937e0fe5b349215c50498c"
                 ],
                 "annotations": [
                     "annotations_I.gtf:md5,61525d86cb937e0fe5b349215c50498c"
                 ],
-                "fasta": [
+                "genome": [
                     "genome_I.fa:md5,e050100d0a9a7d06a8accf8424ad0d98"
+<<<<<<< HEAD
                 ]
             }
         ],
@@ -29,21 +33,32 @@
                 ],
                 "annotations": [
                     "/trev-f/SRAlign-test/raw/rnaseq/data/references/R64-1-1/annotations_I.gtf"
+=======
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
                 ],
-                "fasta": [
-                    "/trev-f/SRAlign-test/raw/rnaseq/data/references/R64-1-1/genome_I.fa"
+                "genome_index": [
+                    "genome_I.fa.fai:md5,2cd76d936cbfa386b14154506c2041b2"
                 ]
             }
         ],
+<<<<<<< HEAD
         "timestamp": "2023-08-22T16:38:55+0000"
+=======
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2023-09-27T15:44:42+0000"
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
     },
-    "successfully unzips and emits GZIP-compressed fasta and GTF files.": {
+    "Prepare_Refs successfully emits uncompressed genome and GTF files when uncompressed inputs are given.": {
         "content": [
             {
                 "0": [
                     "genome_I.fa:md5,e050100d0a9a7d06a8accf8424ad0d98"
                 ],
                 "1": [
+<<<<<<< HEAD
                     "annotations_I.gtf:md5,61525d86cb937e0fe5b349215c50498c"
                 ],
                 "annotations": [
@@ -61,8 +76,11 @@
             {
                 "0": [
                     "genome_I.fa:md5,e050100d0a9a7d06a8accf8424ad0d98"
+=======
+                    "genome_I.fa.fai:md5,2cd76d936cbfa386b14154506c2041b2"
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
                 ],
-                "1": [
+                "2": [
                     "annotations_I.gtf:md5,61525d86cb937e0fe5b349215c50498c"
                 ],
                 "annotations": [
@@ -70,6 +88,7 @@
                 ],
                 "genome": [
                     "genome_I.fa:md5,e050100d0a9a7d06a8accf8424ad0d98"
+<<<<<<< HEAD
                 ]
             }
         ],
@@ -131,5 +150,18 @@
             }
         ],
         "timestamp": "2023-08-22T16:38:55+0000"
+=======
+                ],
+                "genome_index": [
+                    "genome_I.fa.fai:md5,2cd76d936cbfa386b14154506c2041b2"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-08-27T15:52:19.490221634"
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
     }
 }

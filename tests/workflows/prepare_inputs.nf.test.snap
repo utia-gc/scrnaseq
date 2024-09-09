@@ -5,6 +5,7 @@
                 "0": [
                     [
                         {
+<<<<<<< HEAD
                             "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
                             "sampleNumber": "1",
                             "lane": "001",
@@ -26,13 +27,83 @@
                             "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001.fastq.gz",
                             "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001.fastq.gz"
                         ]
+=======
+                            "sampleName": "SRR1066657",
+                            "lane": "001",
+                            "trimStatus": "raw",
+                            "readType": "single",
+                            "rgFields": {
+                                "ID": "SRR1066657.001",
+                                "SM": "SRR1066657",
+                                "LB": "SRR1066657",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR1066657_S3_L001_R1_001.fastq.gz",
+                        "SRR1066657_S3_L001_R1_001.NOFILE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "sampleName": "SRR1066657",
+                            "lane": "002",
+                            "trimStatus": "raw",
+                            "readType": "single",
+                            "rgFields": {
+                                "ID": "SRR1066657.002",
+                                "SM": "SRR1066657",
+                                "LB": "SRR1066657",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR1066657_S3_L002_R1_001.fastq.gz",
+                        "SRR1066657_S3_L002_R1_001.NOFILE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "sampleName": "SRR6924569",
+                            "lane": "001",
+                            "trimStatus": "raw",
+                            "readType": "paired",
+                            "rgFields": {
+                                "ID": "SRR6924569.001",
+                                "SM": "SRR6924569",
+                                "LB": "SRR6924569",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L001_R1_001.fastq.gz",
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L001_R2_001.fastq.gz"
+                    ],
+                    [
+                        {
+                            "sampleName": "SRR6924569",
+                            "lane": "002",
+                            "trimStatus": "raw",
+                            "readType": "paired",
+                            "rgFields": {
+                                "ID": "SRR6924569.002",
+                                "SM": "SRR6924569",
+                                "LB": "SRR6924569",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L002_R1_001.fastq.gz",
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L002_R2_001.fastq.gz"
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
                     ]
                 ],
                 "1": [
                     "GRCh38.p14_genomic_NC_000021.9.fna:md5,7decb2f4cab1bc058b24c48459469232"
                 ],
                 "2": [
+<<<<<<< HEAD
                     "GRCh38.p14_genomic_NC_000021.9.gtf:md5,5dbd6627231b875a9e62136f8dfe2923"
+=======
+                    "genome_I.fa.fai:md5,2cd76d936cbfa386b14154506c2041b2"
+                ],
+                "3": [
+                    "annotations_I.gtf:md5,61525d86cb937e0fe5b349215c50498c"
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
                 ],
                 "annotations": [
                     "GRCh38.p14_genomic_NC_000021.9.gtf:md5,5dbd6627231b875a9e62136f8dfe2923"
@@ -40,9 +111,13 @@
                 "genome": [
                     "GRCh38.p14_genomic_NC_000021.9.fna:md5,7decb2f4cab1bc058b24c48459469232"
                 ],
+                "genome_index": [
+                    "genome_I.fa.fai:md5,2cd76d936cbfa386b14154506c2041b2"
+                ],
                 "samples": [
                     [
                         {
+<<<<<<< HEAD
                             "sampleName": "Chromium_3p_GEX_Human_PBMC_chr21_100000",
                             "sampleNumber": "1",
                             "lane": "001",
@@ -64,10 +139,81 @@
                             "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001.fastq.gz",
                             "/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001.fastq.gz"
                         ]
+=======
+                            "sampleName": "SRR1066657",
+                            "lane": "001",
+                            "trimStatus": "raw",
+                            "readType": "single",
+                            "rgFields": {
+                                "ID": "SRR1066657.001",
+                                "SM": "SRR1066657",
+                                "LB": "SRR1066657",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR1066657_S3_L001_R1_001.fastq.gz",
+                        "SRR1066657_S3_L001_R1_001.NOFILE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "sampleName": "SRR1066657",
+                            "lane": "002",
+                            "trimStatus": "raw",
+                            "readType": "single",
+                            "rgFields": {
+                                "ID": "SRR1066657.002",
+                                "SM": "SRR1066657",
+                                "LB": "SRR1066657",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR1066657_S3_L002_R1_001.fastq.gz",
+                        "SRR1066657_S3_L002_R1_001.NOFILE:md5,d41d8cd98f00b204e9800998ecf8427e"
+                    ],
+                    [
+                        {
+                            "sampleName": "SRR6924569",
+                            "lane": "001",
+                            "trimStatus": "raw",
+                            "readType": "paired",
+                            "rgFields": {
+                                "ID": "SRR6924569.001",
+                                "SM": "SRR6924569",
+                                "LB": "SRR6924569",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L001_R1_001.fastq.gz",
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L001_R2_001.fastq.gz"
+                    ],
+                    [
+                        {
+                            "sampleName": "SRR6924569",
+                            "lane": "002",
+                            "trimStatus": "raw",
+                            "readType": "paired",
+                            "rgFields": {
+                                "ID": "SRR6924569.002",
+                                "SM": "SRR6924569",
+                                "LB": "SRR6924569",
+                                "PL": "ILLUMINA"
+                            }
+                        },
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L002_R1_001.fastq.gz",
+                        "/utia-gc/ngs-test/raw/ngs/reads/raw/SRR6924569_S1_L002_R2_001.fastq.gz"
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
                     ]
                 ]
             }
         ],
+<<<<<<< HEAD
         "timestamp": "2023-08-23T13:08:11+0000"
+=======
+        "meta": {
+            "nf-test": "0.9.0",
+            "nextflow": "23.10.1"
+        },
+        "timestamp": "2024-08-28T13:11:14.371346778"
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
     }
 }

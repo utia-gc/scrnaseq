@@ -4,7 +4,9 @@ nextflow_workflow {
     script "subworkflows/prepare_refs.nf"
     workflow "Prepare_Refs"
 
-    test("Prepare_Refs unzips and outputs GZIP-compressed genome and GTF files.") {
+    test("Prepare_Refs successfully unzips and emits GZIP-compressed genome and GTF files.") {
+        // instantiate helper objects
+        def refs = new RefsEnsembl()
 
         when {
             params {
@@ -13,31 +15,92 @@ nextflow_workflow {
             }
             workflow {
                 """
-                input[0] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/references/GRCh38.p14_genomic_NC_000021.9.fna.gz"
-                input[1] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/references/GRCh38.p14_genomic_NC_000021.9.gtf.gz"
+                input[0] = file("${projectDir}/${refs.getGenomeGzip()}")
+                input[1] = file("${projectDir}/${refs.getGTFGzip()}")
                 """
             }
         }
 
         then {
+            // test workflow success
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 2
+            assert workflow.trace.succeeded().size() == 3
 
+            // test genome decompressed
             assert workflow.out.genome
             with(workflow.out.genome) {
                 assert size() == 1
-                assert get(0) ==~ /^.*\/GRCh38.p14_genomic_NC_000021.9.fna/
+                assert get(0) ==~ /^.*\/genome_I.fa/
             }
 
+            // test genome fasta indexed
+            assert workflow.out.genome_index
+            with(workflow.out.genome_index) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/genome_I.fa.fai/
+            }
+
+            // test annotations decompressed
             assert workflow.out.annotations
             with(workflow.out.annotations) {
                 assert size() == 1
-                assert get(0) ==~ /^.*\/GRCh38.p14_genomic_NC_000021.9.gtf/
+                assert get(0) ==~ /^.*\/annotations_I.gtf/
             }
 
+            // test reproducibility
             assert snapshot(workflow.out).match()
         }
 
+
+    }
+
+
+    test("Prepare_Refs successfully emits uncompressed genome and GTF files when uncompressed inputs are given.") {
+        // instantiate helper objects
+        def refs = new RefsEnsembl()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            workflow {
+                """
+                input[0] = file("${projectDir}/${refs.getGenome()}")
+                input[1] = file("${projectDir}/${refs.getGTF()}")
+                """
+            }
+        }
+
+        then {
+            // test workflow success
+            assert workflow.success
+            assert workflow.trace.succeeded().size() == 1
+
+            // test genome decompressed
+            assert workflow.out.genome
+            with(workflow.out.genome) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/genome_I.fa/
+            }
+
+            // test genome fasta indexed
+            assert workflow.out.genome_index
+            with(workflow.out.genome_index) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/genome_I.fa.fai/
+            }
+
+            // test annotations decompressed
+            assert workflow.out.annotations
+            with(workflow.out.annotations) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/annotations_I.gtf/
+            }
+
+            // test reproducibility
+            assert snapshot(workflow.out).match()
+        }
 
     }
 

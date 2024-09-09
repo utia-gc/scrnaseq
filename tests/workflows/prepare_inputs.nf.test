@@ -5,6 +5,8 @@ nextflow_workflow {
     workflow "PREPARE_INPUTS"
 
     test("PREPARE_INPUTS succeeds when valid samplesheet, genome, and annotation are supplied.") {
+        // instantiate helper objects
+        def refs = new RefsEnsembl()
 
         when {
             params {
@@ -13,9 +15,9 @@ nextflow_workflow {
             }
             workflow {
                 """
-                input[0] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/samplesheets/samplesheet_L001_L002.csv"
-                input[1] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/references/GRCh38.p14_genomic_NC_000021.9.fna.gz"
-                input[2] = "https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/references/GRCh38.p14_genomic_NC_000021.9.gtf.gz"
+                input[0] = file("${projectDir}/tests/data/samplesheets/mixed-ends_lanes.csv")
+                input[1] = file("${projectDir}/${refs.getGenomeGzip()}")
+                input[2] = file("${projectDir}/${refs.getGTFGzip()}")
                 """
             }
         }
@@ -23,7 +25,7 @@ nextflow_workflow {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 2
+            assert workflow.trace.succeeded().size() == 3
 
             // test samplesheet parsing
             assert workflow.out.samples.size() == 2
@@ -33,6 +35,13 @@ nextflow_workflow {
             with(workflow.out.genome) {
                 assert size() == 1
                 assert get(0) ==~ /^.*\/GRCh38.p14_genomic_NC_000021.9.fna/
+            }
+
+            // test genome fasta indexed
+            assert workflow.out.genome_index
+            with(workflow.out.genome_index) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/genome_I.fa.fai/
             }
 
             // test reference annotations prep

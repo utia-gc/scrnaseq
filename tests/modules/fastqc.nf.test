@@ -4,7 +4,12 @@ nextflow_process {
     script "modules/fastqc.nf"
     process "fastqc"
 
+<<<<<<< HEAD
     test("fastqc works for paired-end reads.") {
+=======
+    test("fastqc runs QC on fastqs -- SE reads raw.") {
+        // instantiate helper objects
+        def readsLane1 = new ReadsSELane1()
 
         when {
             params {
@@ -15,6 +20,142 @@ nextflow_process {
                 """
                 input[0] = [
                     [
+                        sampleName:   "${readsLane1.getSampleName()}",
+                        sampleNumber: "${readsLane1.getSampleNumber()}",
+                        lane:         "${readsLane1.getLane()}",
+                        readType:     "${readsLane1.getReadType()}",
+                        trimStatus:   "raw"
+                    ],
+                    file("${projectDir}/${readsLane1.getR1()}"),
+                    file("${projectDir}/${readsLane1.getR2()}")
+                ]
+                """
+            }
+        }
+
+        then {
+            // test process success
+            assert process.success
+
+            // test html output
+            with(process.out.html) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_raw_R1_fastqc.html/
+            }
+            // test zip output
+            with(process.out.zip) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_raw_R1_fastqc.zip/
+            }
+        }
+
+    }
+
+    test("fastqc runs QC on fastqs -- PE reads raw.") {
+        // instantiate helper objects
+        def readsLane1 = new ReadsPELane1()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            process {
+                """
+                input[0] = [
+                    [
+                        sampleName:   "${readsLane1.getSampleName()}",
+                        sampleNumber: "${readsLane1.getSampleNumber()}",
+                        lane:         "${readsLane1.getLane()}",
+                        readType:     "${readsLane1.getReadType()}",
+                        trimStatus:   "raw"
+                    ],
+                    file("${projectDir}/${readsLane1.getR1()}"),
+                    file("${projectDir}/${readsLane1.getR2()}")
+                ]
+                """
+            }
+        }
+
+        then {
+            // test process success
+            assert process.success
+
+            // test html output
+            with(process.out.html.get(0)) {
+                assert size() == 2
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_raw_R1_fastqc.html/
+                assert get(1) ==~ /^.*\/${readsLane1.getStemName()}_raw_R2_fastqc.html/
+            }
+            // test zip output
+            with(process.out.zip.get(0)) {
+                assert size() == 2
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_raw_R1_fastqc.zip/
+                assert get(1) ==~ /^.*\/${readsLane1.getStemName()}_raw_R2_fastqc.zip/
+            }
+        }
+
+    }
+
+    test("fastqc runs QC on fastqs -- SE reads trimmed.") {
+        // instantiate helper objects
+        def readsLane1 = new ReadsSELane1()
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            process {
+                """
+                input[0] = [
+                    [
+                        sampleName:   "${readsLane1.getSampleName()}",
+                        sampleNumber: "${readsLane1.getSampleNumber()}",
+                        lane:         "${readsLane1.getLane()}",
+                        readType:     "${readsLane1.getReadType()}",
+                        trimStatus:   "trimmed"
+                    ],
+                    file("${projectDir}/${readsLane1.getR1()}"),
+                    file("${projectDir}/${readsLane1.getR2()}")
+                ]
+                """
+            }
+        }
+
+        then {
+            // test process success
+            assert process.success
+
+            // test html output
+            with(process.out.html) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_trimmed_R1_fastqc.html/
+            }
+            // test zip output
+            with(process.out.zip) {
+                assert size() == 1
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_trimmed_R1_fastqc.zip/
+            }
+        }
+
+    }
+
+    test("fastqc runs QC on fastqs -- PE reads trimmed.") {
+        // instantiate helper objects
+        def readsLane1 = new ReadsPELane1()
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+            }
+            process {
+                """
+                input[0] = [
+                    [
+<<<<<<< HEAD
                         sampleName:   "Chromium_3p_GEX_Human_PBMC_chr21_100000",
                         sampleNumber: "1",
                         lane:         "001",
@@ -24,26 +165,47 @@ nextflow_process {
                         file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001.fastq.gz"),
                         file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/reads/raw/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R2_001.fastq.gz")
                     ]
+=======
+                        sampleName:   "${readsLane1.getSampleName()}",
+                        sampleNumber: "${readsLane1.getSampleNumber()}",
+                        lane:         "${readsLane1.getLane()}",
+                        readType:     "${readsLane1.getReadType()}",
+                        trimStatus:   "trimmed"
+                    ],
+                    file("${projectDir}/${readsLane1.getR1()}"),
+                    file("${projectDir}/${readsLane1.getR2()}")
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
                 ]
                 """
             }
         }
 
         then {
+            // test process success
             assert process.success
 
             String fastqBaseName = 'Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001'
             // test html output
             with(process.out.html.get(0)) {
                 assert size() == 2
+<<<<<<< HEAD
                 assert get(0) ==~ /^.*\/${fastqBaseName}_R1_001_fastqc.html/
                 assert get(1) ==~ /^.*\/${fastqBaseName}_R2_001_fastqc.html/
+=======
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_trimmed_R1_fastqc.html/
+                assert get(1) ==~ /^.*\/${readsLane1.getStemName()}_trimmed_R2_fastqc.html/
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
             }
             // test zip output
             with(process.out.zip.get(0)) {
                 assert size() == 2
+<<<<<<< HEAD
                 assert get(0) ==~ /^.*\/${fastqBaseName}_R1_001_fastqc.zip/
                 assert get(1) ==~ /^.*\/${fastqBaseName}_R2_001_fastqc.zip/
+=======
+                assert get(0) ==~ /^.*\/${readsLane1.getStemName()}_trimmed_R1_fastqc.zip/
+                assert get(1) ==~ /^.*\/${readsLane1.getStemName()}_trimmed_R2_fastqc.zip/
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
             }
         }
 

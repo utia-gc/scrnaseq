@@ -3,9 +3,221 @@ nextflow_pipeline {
     name "Test Workflow main.nf"
     script "main.nf"
 
+    test("main.nf prints help message") {
+        tag 'nf-schema'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                help              = true
+            }
+        }
+
+        then {
+            // It doesn't seem like nf-test supports testing against text printed by log.info, so for now just check that exit code is 0 (workflow succeeds) and no tasks are executed.
+            assert workflow.success
+            assert workflow.trace.succeeded().size() == 0
+        }
+    }
+
+
+    test("main.nf fails -- no project title.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                projectTitle      = null
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) not supplied
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) not supplied
+            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+            assert workflow.stderr.contains("* Missing required parameter(s): projectTitle")
+        }
+
+    }
+
+
+    test("main.nf fails -- spaces in `params.projectTitle`.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                projectTitle      = 'project title'
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) don't match pattern
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains("* --projectTitle (project title): Project title can ony contain alphanumeric characters, '.', '_', or '-'.")
+        }
+
+    }
+
+
+    test("main.nf fails -- slashes in `params.projectTitle`.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                projectTitle      = 'project/title'
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) don't match pattern
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains("* --projectTitle (project/title): Project title can ony contain alphanumeric characters, '.', '_', or '-'.")
+        }
+
+    }
+
+
+    test("main.nf fails -- no input samplesheet.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                samplesheet       = null
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) not supplied
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) not supplied
+            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+            assert workflow.stderr.contains("* Missing required parameter(s): samplesheet")
+        }
+
+    }
+
+
+    test("main.nf fails -- .txt file for `params.samplesheet`.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                samplesheet       = "${projectDir}/tests/data/samplesheets/invalid/samplesheet_not_csv_file.txt"
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) don't match pattern
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
+            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+        }
+
+    }
+
+
+    test("main.nf fails -- file name with spaces for `params.samplesheet`.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                samplesheet       = "${projectDir}/tests/data/samplesheets/invalid/spaces in samplesheet name.csv"
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) don't match pattern
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
+            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+        }
+
+    }
+
+
+    test("main.nf fails -- no reference genome.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                genome            = null
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) don't match pattern
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
+            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+            assert workflow.stderr.contains("* Missing required parameter(s): genome")
+        }
+
+    }
+
+
+    test("main.nf fails -- no reference annotations.") {
+        tag 'nf-schema'
+        tag 'validate'
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                annotations       = null
+            }
+        }
+
+        then {
+            // nf-schema validateParameters() causes workflow failure with exit status 1 when required param(s) don't match pattern
+            assert workflow.failed
+            assert workflow.exitStatus == 1
+            // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
+            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+            assert workflow.stderr.contains("* Missing required parameter(s): annotations")
+        }
+
+    }
+
+
     test("main.nf succeeds with default `nf_test` params") {
+        tag 'full'
+
         // instantiate instances of helper classes
-        def reads1 = new ReadsPE1()
+        def readsLane1 = new Reads10xChromiumV3Lane1()
+        def readsLane2 = new Reads10xChromiumV3Lane2()
 
         when {
             params {
@@ -17,44 +229,49 @@ nextflow_pipeline {
         then {
             // test workflow status
             assert workflow.success
-            assert workflow.trace.succeeded().size() == 13
+            /*
+                Count number succeeded tasks: 9 + (1 * (n fastq pairs)) + (3 * (n samples))
+                    - 2: Unzip genome and annotations
+                    - 2: Count bases in genome -- Index fasta and count
+                    - 2: Build reference genome index -- mkgtf and mkref
+                    - 1 * (n fastsq pairs): FastQC -- Raw only
+                    - 1 * (n samples): Count bases in reads -- Raw only
+                    - 1 * (n samples): Cat reads
+                    - 1 * (n samples): Map and quantify reads -- Done in one step
+                    - 1: QC reads
+                    - 1: QC mappings and quantification
+                    - 1: QC full
+            */
+            assert workflow.trace.succeeded().size() == 14
 
             // test raw FastQC html reports and zip files published to reports dir
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R1_001_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R2_001_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L001_R2_001_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R1_001_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_S1_L002_R2_001_fastqc.zip").exists()
-            // test prealign FastQC html reports and zip files published to reports dir
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_R1_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_R1_fastqc.zip").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_R2_fastqc.html").exists()
-            assert path("${params.publishDirReports}/fastqc/Chromium_3p_GEX_Human_PBMC_chr21_100000_R2_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane1.getStemName()}_raw_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane1.getStemName()}_raw_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane1.getStemName()}_raw_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane1.getStemName()}_raw_R2_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane2.getStemName()}_raw_R1_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane2.getStemName()}_raw_R1_fastqc.zip").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane2.getStemName()}_raw_R2_fastqc.html").exists()
+            assert path("${params.publishDirReports}/.fastqc/${readsLane2.getStemName()}_raw_R2_fastqc.zip").exists()
+            // test cellranger count outputs published to data dir
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/analysis").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/cloupe.cloupe").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/filtered_feature_bc_matrix").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/filtered_feature_bc_matrix.h5").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/metrics_summary.csv").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/molecule_info.h5").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/possorted_genome_bam.bam").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/possorted_genome_bam.bam.bai").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/raw_feature_bc_matrix").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/raw_feature_bc_matrix.h5").exists()
+            assert path("${params.publishDirData}/quant/cellranger/${readsLane1.getSampleName()}/outs/web_summary.html").exists()
             // test MultiQC reports and data published to reports dir
-            assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw.html").exists()
-            assert path("${params.publishDirReports}/multiqc/reads_raw/reads_raw_data/").exists()
-            assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign.html").exists()
-            assert path("${params.publishDirReports}/multiqc/reads_prealign/reads_prealign_data/").exists()
+            assert path("${params.publishDirReports}/multiqc/reads/reads.html").exists()
+            assert path("${params.publishDirReports}/multiqc/reads/reads_data/").exists()
             assert path("${params.publishDirReports}/multiqc/map_quantify/map_quantify.html").exists()
             assert path("${params.publishDirReports}/multiqc/map_quantify/map_quantify_data/").exists()
-            assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq.html").exists()
-            assert path("${params.publishDirReports}/multiqc/scrnaseq/scrnaseq_data/").exists()
-            // test cellranger count outputs published to data dir
-            String cellrangerCountOutsPath = "${params.publishDirData}/quant/cellranger/${reads1.metadata.sampleName}/outs"
-            assert path("${cellrangerCountOutsPath}/analysis").exists()
-            assert path("${cellrangerCountOutsPath}/cloupe.cloupe").exists()
-            assert path("${cellrangerCountOutsPath}/filtered_feature_bc_matrix").exists()
-            assert path("${cellrangerCountOutsPath}/filtered_feature_bc_matrix.h5").exists()
-            assert path("${cellrangerCountOutsPath}/metrics_summary.csv").exists()
-            assert path("${cellrangerCountOutsPath}/molecule_info.h5").exists()
-            assert path("${cellrangerCountOutsPath}/possorted_genome_bam.bam").exists()
-            assert path("${cellrangerCountOutsPath}/possorted_genome_bam.bam.bai").exists()
-            assert path("${cellrangerCountOutsPath}/raw_feature_bc_matrix").exists()
-            assert path("${cellrangerCountOutsPath}/raw_feature_bc_matrix.h5").exists()
-            assert path("${cellrangerCountOutsPath}/web_summary.html").exists()
+            assert path("${params.publishDirReports}/multiqc/scrnaseq_nf-test/scrnaseq_nf-test.html").exists()
+            assert path("${params.publishDirReports}/multiqc/scrnaseq_nf-test/scrnaseq_nf-test_data/").exists()
         }
 
     }

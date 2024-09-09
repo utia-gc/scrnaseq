@@ -4,7 +4,10 @@ nextflow_process {
     script "modules/gunzip.nf"
     process "gunzip"
 
-    test("gunzip successfully unzips GZIP-compressed GTF file.") {
+    test("gunzip decompresses GZIP-compressed fasta file.") {
+        // instantiate helper objects
+        def refs = new RefsEnsembl()
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
 
         when {
             params {
@@ -13,19 +16,30 @@ nextflow_process {
             }
             process {
                 """
+<<<<<<< HEAD
                 input[0] = file("https://github.com/utia-gc/ngs-test/raw/scrnaseq/data/references/GRCh38.p14_genomic_NC_000021.9.gtf.gz")
+=======
+                input[0] = file("${projectDir}/${refs.getGenomeGzip()}")
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
                 """
             }
         }
 
         then {
+            // test process success
             assert process.success
 
+            // test unzipped genome fasta
             with(process.out.gunzip) {
                 assert size() == 1
+<<<<<<< HEAD
                 assert get(0) ==~ /^.*\/GRCh38.p14_genomic_NC_000021.9.gtf/
+=======
+                assert get(0) ==~ /^.*\/genome_I.fa/
+>>>>>>> 36485fb849a649865b44b57f024b897ffb619a0c
             }
 
+            // test reproducibility
             assert snapshot(process.out).match()
         }
 

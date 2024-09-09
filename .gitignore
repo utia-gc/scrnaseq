@@ -147,7 +147,3 @@ null
 
 # VSCode
 *.code-workspace
-
-# Files needed only for development
-/tests/data
-/src

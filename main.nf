@@ -57,7 +57,6 @@ workflow {
 
     CHECK_QUALITY(
         ch_reads_raw,
-        ch_reads_pre_align,
         ch_genome_index,
         ch_map_quantify_log
     )

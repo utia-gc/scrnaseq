@@ -2,10 +2,10 @@ include { QC_Reads                        } from '../subworkflows/qc_reads.nf'
 include { multiqc as multiqc_map_quantify } from "../modules/multiqc.nf"
 include { multiqc as multiqc_full         } from "../modules/multiqc.nf"
 
+
 workflow CHECK_QUALITY {
     take:
         reads_raw
-        reads_prealign
         genome_index
         map_quantify_log
 
@@ -18,6 +18,7 @@ workflow CHECK_QUALITY {
 
         multiqc_map_quantify(
             map_quantify_log,
+            file("${projectDir}/assets/multiqc_config.yaml"),
             'map_quantify'
         )
 

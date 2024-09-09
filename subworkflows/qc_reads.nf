@@ -18,10 +18,10 @@ workflow QC_Reads {
 
         // Count bases in raw reads
         Group_Reads(reads_raw)
-        compute_bases(Group_Reads.out.reads_grouped)
+        compute_bases_reads(Group_Reads.out.reads_grouped)
         // Compute sequencing depth for raw reads
         // Sequencing depth = total number of bases in reads for a sample / total number of bases in the reference genome
-        compute_bases.out.bases
+        compute_bases_reads.out.bases
             .combine(ch_bases_genome)
             .map { metadata, basesInReads, basesInGenome ->
                 [ metadata, Long.valueOf(basesInReads) / Long.valueOf(basesInGenome) ]

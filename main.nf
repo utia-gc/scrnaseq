@@ -19,6 +19,18 @@ include { PREPARE_INPUTS     } from './workflows/prepare_inputs.nf'
 include { PROCESS_READS      } from './workflows/process_reads.nf'
 include { MAP_QUANTIFY_READS } from './workflows/map_quantify_reads.nf'
 
+// Include plugin helper functions
+include { paramsHelp; validateParameters } from 'plugin/nf-schema'
+
+// Print help message with typical command line usage for the pipeline
+if (params.help) {
+    log.info paramsHelp('nextflow run utia-gc/scrnaseq -params-file params.yaml')
+    exit 0
+}
+
+// Validate input parameters
+validateParameters()
+
 workflow {
     PREPARE_INPUTS(
         file(params.samplesheet),

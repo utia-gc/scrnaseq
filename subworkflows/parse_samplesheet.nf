@@ -74,11 +74,5 @@ def createSampleReadsChannel(meta, r1, r2) {
         reads2 = file(r2)
     }
 
-    // build read group line
-    // get sequence ID line from fastq.gz
-    def sequenceIdentifier = ReadGroup.readFastqFirstSequenceIdentifier(reads1)
-    def sequenceIdentifierMatcher = ReadGroup.matchSequenceIdentifier(sequenceIdentifier)
-    metadata.rgFields = ReadGroup.buildRGFields(metadata, sequenceIdentifierMatcher)
-
     return [ metadata, reads1, reads2 ]
 }

@@ -71,9 +71,9 @@
         "mapQuantTool": {
           "type": "string",
           "description": "Tool for mapping and quantifying reads.",
-          "enum": ["cellranger"],
+          "enum": ["cellranger", "split_pipe"],
           "default": "cellranger",
-          "errorMessage": "Map and quantify tool must be one of the valid options: [cellranger]."
+          "errorMessage": "Map and quantify tool must be one of the valid options: [cellranger, split_pipe]."
         }
       },
       "required": ["mapQuantTool"]

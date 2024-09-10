@@ -1,5 +1,7 @@
 include { Cellranger_Map_Count } from '../subworkflows/cellranger_map_count.nf'
 
+include { split_pipe_mkref } from '../modules/split-pipe/split_pipe_mkref'
+
 /**
  * Workflow to map reads to a reference and quantify reads within features (genes/transcripts).
  *
@@ -30,6 +32,15 @@ workflow MAP_QUANTIFY_READS {
                     gtf
                 )
                 ch_map_quantify_log = Cellranger_Map_Count.out.map_count_log
+                break
+
+            case 'SPLIT_PIPE':
+                split_pipe_mkref(
+                    genomeFasta,
+                    gtf
+                )
+
+                ch_map_quantify_log = Channel.empty()
                 break
         }
 

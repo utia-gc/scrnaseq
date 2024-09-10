@@ -326,4 +326,38 @@ nextflow_pipeline {
 
     }
 
+
+    test("main.nf succeeds -- Parse split-pipe") {
+        tag 'full'
+        tag 'current'
+
+        // instantiate instances of helper classes
+
+        when {
+            params {
+                publishDirReports = "${outputDir}/reports"
+                publishDirData    = "${outputDir}/data"
+                mapQuantTool      = 'split_pipe'
+            }
+        }
+
+        then {
+            // test workflow status
+            assert workflow.success
+            /*
+                Count number succeeded tasks: 7 + (1 * (n fastq pairs)) + (2 * (n samples))
+                    - 2: Unzip genome and annotations
+                    - 2: Count bases in genome -- Index fasta and count
+                    - 1: Build reference genome index -- mkref
+                    - 1 * (n fastsq pairs): FastQC -- Raw only
+                    - 1 * (n samples): Count bases in reads -- Raw only
+                    - 1 * (n samples): Cat reads
+                    - 1: QC reads
+                    - 1: QC full
+            */
+            assert workflow.trace.succeeded().size() == 11
+        }
+
+    }
+
 }

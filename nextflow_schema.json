@@ -61,11 +61,30 @@
         }
       },
       "required": ["projectTitle", "samplesheet", "genome", "annotations"]
+    },
+    "mapping_and_quantification_parameters": {
+      "title": "Mapping and quantification parameters",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "mapQuantTool": {
+          "type": "string",
+          "description": "Tool for mapping and quantifying reads.",
+          "enum": ["cellranger"],
+          "default": "cellranger",
+          "errorMessage": "Map and quantify tool must be one of the valid options: [cellranger]."
+        }
+      },
+      "required": ["mapQuantTool"]
     }
   },
   "allOf": [
     {
       "$ref": "#/defs/input_output_options"
+    },
+    {
+      "$ref": "#/defs/mapping_and_quantification_parameters"
     }
   ]
 }

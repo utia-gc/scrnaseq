@@ -14,7 +14,7 @@ process split_pipe_mkref {
         path gtf
 
     output:
-        path('split-pipe-mkref/*'), emit: genome_index
+        path('split-pipe-mkref'), emit: genome_index
 
     script:
         """

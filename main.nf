@@ -45,11 +45,14 @@ workflow {
 
     PROCESS_READS(ch_reads_raw)
     ch_reads_pre_align = PROCESS_READS.out.reads_pre_align
+    ch_reads_pre_align.dump(tag: 'ch_reads_pre_align', pretty: true)
 
+    ch_sample_list = params.sampleList ? file(params.sampleList) : Channel.empty()
     MAP_QUANTIFY_READS(
         ch_reads_pre_align,
         ch_genome,
         ch_annotations,
+        ch_sample_list,
         params.mapQuantTool
     )
     ch_map_quantify_log = MAP_QUANTIFY_READS.out.map_quantify_log

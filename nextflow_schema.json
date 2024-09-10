@@ -23,6 +23,11 @@
           "pattern": "^([a-zA-Z0-9/._-]+\\.csv|(?:[a-zA-Z]+)://[a-zA-Z0-9./_-]+\\.csv)$",
           "errorMessage": "Samplesheet must be a .csv file with only alphanumeric characters, '.', '_', or '-' in file name."
         },
+        "sampleList": {
+          "type": "string",
+          "description": "Sample list for input to Parse split-pipe",
+          "format": "file-path"
+        },
         "genome": {
           "type": "string",
           "description": "A path or URL to the reference genome sequence file in fasta format.",

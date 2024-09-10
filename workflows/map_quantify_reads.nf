@@ -1,5 +1,6 @@
 include { Cellranger_Map_Count } from '../subworkflows/cellranger_map_count.nf'
 
+include { split_pipe_all   } from '../modules/split-pipe/split_pipe_all'
 include { split_pipe_mkref } from '../modules/split-pipe/split_pipe_mkref'
 
 /**
@@ -14,6 +15,8 @@ include { split_pipe_mkref } from '../modules/split-pipe/split_pipe_mkref'
  * @param reads The reads to map.
  * @param genomeFasta The reference genome fasta file.
  * @param gtf The reference annotations GTF file.
+ * @param sampleList The samples list for Parse split-pipe.
+ * @param map_quantify_tool The tool for mapping and quantification.
  * @return map_quantify_log The log file from mapping and quantification that can be used as direct input for MultiQC.
  */
 workflow MAP_QUANTIFY_READS {
@@ -21,6 +24,7 @@ workflow MAP_QUANTIFY_READS {
         reads
         genomeFasta
         gtf
+        sampleList
         map_quantify_tool
 
     main:
@@ -38,6 +42,13 @@ workflow MAP_QUANTIFY_READS {
                 split_pipe_mkref(
                     genomeFasta,
                     gtf
+                )
+                split_pipe_all(
+                    reads.map { meta, reads ->
+                        return [ meta, reads[0], reads[1] ]
+                    },
+                    split_pipe_mkref.out.genome_index,
+                    sampleList
                 )
 
                 ch_map_quantify_log = Channel.empty()

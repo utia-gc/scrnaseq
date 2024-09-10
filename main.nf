@@ -49,7 +49,8 @@ workflow {
     MAP_QUANTIFY_READS(
         ch_reads_pre_align,
         ch_genome,
-        ch_annotations
+        ch_annotations,
+        params.mapQuantTool
     )
     ch_map_quantify_log = MAP_QUANTIFY_READS.out.map_quantify_log
     ch_map_quantify_log

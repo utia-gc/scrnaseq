@@ -19,14 +19,20 @@ workflow MAP_QUANTIFY_READS {
         reads
         genomeFasta
         gtf
+        map_quantify_tool
 
     main:
-        Cellranger_Map_Count(
-            reads,
-            genomeFasta,
-            gtf
-        )
+        switch ( map_quantify_tool.toUpperCase() ) {
+            case 'CELLRANGER':
+                Cellranger_Map_Count(
+                    reads,
+                    genomeFasta,
+                    gtf
+                )
+                ch_map_quantify_log = Cellranger_Map_Count.out.map_count_log
+                break
+        }
 
     emit:
-        map_quantify_log = Cellranger_Map_Count.out.map_count_log
+        map_quantify_log = ch_map_quantify_log
 }

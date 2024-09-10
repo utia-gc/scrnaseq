@@ -216,7 +216,6 @@ nextflow_pipeline {
         tag 'nf-schema'
         tag 'validate'
         tag 'tools'
-        tag 'current'
 
         when {
             params {
@@ -242,7 +241,6 @@ nextflow_pipeline {
         tag 'nf-schema'
         tag 'validate'
         tag 'tools'
-        tag 'current'
 
         when {
             params {

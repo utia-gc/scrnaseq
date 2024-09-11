@@ -6,7 +6,7 @@ process split_pipe_all {
 
     // Resources labels
     label 'sup_cpu'
-    label 'huge_mem'
+    label 'sup_mem'
     label 'max_time'
 
     input:

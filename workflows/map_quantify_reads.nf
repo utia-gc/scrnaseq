@@ -1,6 +1,7 @@
 include { Cellranger_Map_Count } from '../subworkflows/cellranger_map_count.nf'
 
 include { split_pipe_all   } from '../modules/split-pipe/split_pipe_all'
+include { split_pipe_comb  } from '../modules/split-pipe/split_pipe_comb'
 include { split_pipe_mkref } from '../modules/split-pipe/split_pipe_mkref'
 
 /**
@@ -50,6 +51,22 @@ workflow MAP_QUANTIFY_READS {
                     split_pipe_mkref.out.genome_index,
                     sampleList
                 )
+
+                // combine outputs from multiple sublibraries
+                // collect each individual sublibrary into a list of sublibraries
+                split_pipe_all.out.outs
+                    .collect(
+                        // get sublibrary only -- lose the metadata
+                        { metadata, sublibrary ->
+                            return sublibrary
+                        },
+                        // sort based on file name
+                        sort: { a, b ->
+                            a.name <=> b.name
+                        }
+                    )
+                    .set { ch_parse_sublibraries }
+                split_pipe_comb(ch_parse_sublibraries)
 
                 ch_map_quantify_log = Channel.empty()
                 break

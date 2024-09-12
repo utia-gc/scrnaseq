@@ -23,6 +23,11 @@
           "pattern": "^([a-zA-Z0-9/._-]+\\.csv|(?:[a-zA-Z]+)://[a-zA-Z0-9./_-]+\\.csv)$",
           "errorMessage": "Samplesheet must be a .csv file with only alphanumeric characters, '.', '_', or '-' in file name."
         },
+        "sampleList": {
+          "type": "string",
+          "description": "Sample list for input to Parse split-pipe",
+          "format": "file-path"
+        },
         "genome": {
           "type": "string",
           "description": "A path or URL to the reference genome sequence file in fasta format.",
@@ -61,11 +66,30 @@
         }
       },
       "required": ["projectTitle", "samplesheet", "genome", "annotations"]
+    },
+    "mapping_and_quantification_parameters": {
+      "title": "Mapping and quantification parameters",
+      "type": "object",
+      "description": "",
+      "default": "",
+      "properties": {
+        "mapQuantTool": {
+          "type": "string",
+          "description": "Tool for mapping and quantifying reads.",
+          "enum": ["cellranger", "split_pipe"],
+          "default": "cellranger",
+          "errorMessage": "Map and quantify tool must be one of the valid options: [cellranger, split_pipe]."
+        }
+      },
+      "required": ["mapQuantTool"]
     }
   },
   "allOf": [
     {
       "$ref": "#/defs/input_output_options"
+    },
+    {
+      "$ref": "#/defs/mapping_and_quantification_parameters"
     }
   ]
 }

@@ -27,4 +27,4 @@ nextflow run utia-gc/scrnaseq \
     -revision main \
     -profile condo_trowan1,exploratory \
     -config config/nextflow.config \
-    -params-file config/params_ngs.yaml
+    -params-file config/params_scrnaseq.yaml

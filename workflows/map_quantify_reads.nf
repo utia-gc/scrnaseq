@@ -66,7 +66,10 @@ workflow MAP_QUANTIFY_READS {
                         }
                     )
                     .set { ch_parse_sublibraries }
-                split_pipe_comb(ch_parse_sublibraries)
+                split_pipe_comb(
+                    ch_parse_sublibraries,
+                    split_pipe_mkref.out.genome_index
+                )
 
                 ch_map_quantify_log = Channel.empty()
                 break

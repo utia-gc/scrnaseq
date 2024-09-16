@@ -21,7 +21,8 @@ process split_pipe_comb{
     )
 
     input:
-        path(sublibraries)
+        path sublibraries
+        path index
 
     output:
         path('combined'), emit: combinedOuts

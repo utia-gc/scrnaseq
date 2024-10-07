@@ -98,7 +98,7 @@ markdown_extensions:
 extra:
   pipeline:
     name: utia-gc/scrnaseq
-    revision: main
+    revision: v0.1.0
   version:
     provider: mike
     alias: true

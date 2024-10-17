@@ -1,5 +1,5 @@
-include { cellranger_mkgtf } from '../modules/cellranger_mkgtf.nf'
-include { cellranger_mkref } from '../modules/cellranger_mkref.nf'
+include { cellranger_mkgtf } from '../modules/cellranger/cellranger_mkgtf'
+include { cellranger_mkref } from '../modules/cellranger/cellranger_mkref'
 
 /**
  * Create a Cell Ranger custom reference.

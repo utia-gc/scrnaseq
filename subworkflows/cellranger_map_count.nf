@@ -1,4 +1,4 @@
-include { cellranger_count            } from '../modules/cellranger_count.nf'
+include { cellranger_count            } from '../modules/cellranger/cellranger_count'
 include { Cellranger_Create_Reference } from '../subworkflows/cellranger_create_reference.nf'
 
 workflow Cellranger_Map_Count {

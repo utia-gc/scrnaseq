@@ -1,7 +1,11 @@
 process cellranger_mkref {
+    // Process settings label
     label 'cellranger'
-    
-    label 'big_mem'
+
+    // Resources labels
+    label 'huge_cpu'
+    label 'huge_mem'
+    label 'med_time'
 
     input:
         path fasta

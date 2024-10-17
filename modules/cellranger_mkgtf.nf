@@ -1,5 +1,11 @@
 process cellranger_mkgtf {
+    // Process settings label
     label 'cellranger'
+
+    // Resources labels
+    label 'def_cpu'
+    label 'lil_mem'
+    label 'lil_time'
 
     input:
         path gtf

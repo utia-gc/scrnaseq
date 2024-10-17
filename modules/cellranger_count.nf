@@ -1,8 +1,13 @@
 process cellranger_count {
     tag "${metadata.sampleName}"
 
+    // Process settings label
     label 'cellranger'
-    label 'big_mem'
+
+    // Resources labels
+    label 'huge_cpu'
+    label 'huge_mem'
+    label 'huge_time'
 
     publishDir(
         path:    "${params.publishDirData}/quant/cellranger",

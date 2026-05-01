@@ -15,6 +15,7 @@ Finally, we will give direction as to how the user can make use of our solution 
 
 ### [Quick Start](./quick_start/index.md)
 
+- [How do I process a Parse Biosciences Evercode dataset?](quick_start/parse_evercode.md)
 
 ### [Input / Output](input_output/index.md)
 

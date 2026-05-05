@@ -20,48 +20,43 @@ include { PROCESS_READS      } from './workflows/process_reads.nf'
 include { MAP_QUANTIFY_READS } from './workflows/map_quantify_reads.nf'
 
 // Include plugin helper functions
-include { paramsHelp; validateParameters } from 'plugin/nf-schema'
-
-// Print help message with typical command line usage for the pipeline
-if (params.help) {
-    log.info paramsHelp('nextflow run utia-gc/scrnaseq -params-file params.yaml')
-    exit 0
-}
+include { validateParameters } from 'plugin/nf-schema'
 
 // Validate input parameters
 validateParameters()
 
 workflow {
-    PREPARE_INPUTS(
-        file(params.samplesheet),
-        file(params.genome),
-        file(params.annotations)
-    )
-    ch_reads_raw    = PREPARE_INPUTS.out.samples
-    ch_reads_raw.dump(tag: "ch_reads_raw")
-    ch_genome       = PREPARE_INPUTS.out.genome
-    ch_genome_index = PREPARE_INPUTS.out.genome_index
-    ch_annotations  = PREPARE_INPUTS.out.annotations
+    main:
+        PREPARE_INPUTS(
+            file(params.samplesheet),
+            file(params.genome),
+            file(params.annotations)
+        )
+        ch_reads_raw    = PREPARE_INPUTS.out.samples
+        ch_reads_raw.dump(tag: "ch_reads_raw")
+        ch_genome       = PREPARE_INPUTS.out.genome
+        ch_genome_index = PREPARE_INPUTS.out.genome_index
+        ch_annotations  = PREPARE_INPUTS.out.annotations
 
-    PROCESS_READS(ch_reads_raw)
-    ch_reads_pre_align = PROCESS_READS.out.reads_pre_align
-    ch_reads_pre_align.dump(tag: 'ch_reads_pre_align', pretty: true)
+        PROCESS_READS(ch_reads_raw)
+        ch_reads_pre_align = PROCESS_READS.out.reads_pre_align
 
-    ch_sample_list = params.sampleList ? file(params.sampleList) : Channel.empty()
-    MAP_QUANTIFY_READS(
-        ch_reads_pre_align,
-        ch_genome,
-        ch_annotations,
-        ch_sample_list,
-        params.mapQuantTool
-    )
-    ch_map_quantify_log = MAP_QUANTIFY_READS.out.map_quantify_log
-    ch_map_quantify_log
-        .dump(tag: 'ch_map_quantify_log', pretty: true)
-
-    CHECK_QUALITY(
-        ch_reads_raw,
-        ch_genome_index,
+        ch_sample_list = params.sampleList ? file(params.sampleList) : Channel.empty()
+        MAP_QUANTIFY_READS(
+            ch_reads_pre_align,
+            ch_genome,
+            ch_annotations,
+            ch_sample_list,
+            params.mapQuantTool
+        )
+        ch_map_quantify_log = MAP_QUANTIFY_READS.out.map_quantify_log
         ch_map_quantify_log
-    )
+            .dump(tag: 'ch_map_quantify_log', pretty: true)
+
+        CHECK_QUALITY(
+            ch_reads_raw,
+            ch_genome_index,
+            ch_map_quantify_log,
+            "${params.projectTitle}"
+        )
 }

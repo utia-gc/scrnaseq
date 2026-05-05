@@ -1,10 +1,10 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://raw.githubusercontent.com/utia-gc/ngs/master/nextflow_schema.json",
-  "title": "utia-gc/ngs pipeline parameters",
-  "description": "A Nextflow pipeline for base NGS analysis.",
+  "$id": "https://raw.githubusercontent.com/utia-gc/scrnaseq/main/nextflow_schema.json",
+  "title": "utia-gc/scrnaseq pipeline parameters",
+  "description": "A Nextflow pipeline for single cell RNA-seq analysis built on utia-gc/ngs.",
   "type": "object",
-  "defs": {
+  "$defs": {
     "input_output_options": {
       "title": "Input/output options",
       "type": "object",
@@ -15,7 +15,7 @@
           "type": "string",
           "description": "A short title for the project. Used in naming files/directories.",
           "pattern": "^[a-zA-Z0-9._-]+$",
-          "errorMessage": "Project title can ony contain alphanumeric characters, '.', '_', or '-'."
+          "errorMessage": "Project title can only contain alphanumeric characters, '.', '_', or '-'."
         },
         "samplesheet": {
           "type": "string",
@@ -63,9 +63,18 @@
             "symlink"
           ],
           "help_text": "This sets the default mode for publishing files. See the `mode` section of the [`publishDir` Nextflow docs](https://www.nextflow.io/docs/latest/process.html#publishdir) for details about the options."
+        },
+        "exploratoryTag": {
+          "type": "string",
+          "description": "Tag to add to the end of the exploratory directory name to describe what's being explored. Use in conjunction with the `exploratory` profile."
         }
       },
-      "required": ["projectTitle", "samplesheet", "genome", "annotations"]
+      "required": [
+        "projectTitle",
+        "samplesheet",
+        "genome",
+        "annotations"
+      ]
     },
     "mapping_and_quantification_parameters": {
       "title": "Mapping and quantification parameters",
@@ -76,20 +85,25 @@
         "mapQuantTool": {
           "type": "string",
           "description": "Tool for mapping and quantifying reads.",
-          "enum": ["cellranger", "split_pipe"],
+          "enum": [
+            "cellranger",
+            "split_pipe"
+          ],
           "default": "cellranger",
-          "errorMessage": "Map and quantify tool must be one of the valid options: [cellranger, split_pipe]."
+          "errorMessage": "Map and quantify tool must be one of the valid options."
         }
       },
-      "required": ["mapQuantTool"]
+      "required": [
+        "mapQuantTool"
+      ]
     }
   },
   "allOf": [
     {
-      "$ref": "#/defs/input_output_options"
+      "$ref": "#/$defs/input_output_options"
     },
     {
-      "$ref": "#/defs/mapping_and_quantification_parameters"
+      "$ref": "#/$defs/mapping_and_quantification_parameters"
     }
   ]
 }

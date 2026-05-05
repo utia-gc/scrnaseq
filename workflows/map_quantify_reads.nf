@@ -54,7 +54,7 @@ workflow MAP_QUANTIFY_READS {
 
                 // combine outputs from multiple sublibraries
                 // collect each individual sublibrary into a list of sublibraries
-                split_pipe_all.out.outs
+                ch_parse_sublibraries = split_pipe_all.out.outs
                     .collect(
                         // get sublibrary only -- lose the metadata
                         { metadata, sublibrary ->
@@ -65,7 +65,6 @@ workflow MAP_QUANTIFY_READS {
                             a.name <=> b.name
                         }
                     )
-                    .set { ch_parse_sublibraries }
                 split_pipe_comb(
                     ch_parse_sublibraries,
                     split_pipe_mkref.out.genome_index

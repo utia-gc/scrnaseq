@@ -8,19 +8,19 @@ process cellranger_mkref {
     label 'med_time'
 
     input:
-        path fasta
-        path gtf
+    path fasta
+    path gtf
 
     output:
-        path("${fasta.baseName}/*"), emit: genome_index
+    path ("${fasta.baseName}/*"), emit: genome_index
 
-    script: 
-        """
+    script:
+    """
         cellranger mkref \
             --genome=${fasta.baseName} \
             --fasta=${fasta} \
             --genes=${gtf} \
-            --memgb=${(task.memory as String).replaceAll(/\s[KMGT]?B/, '')} \
+            --memgb=${task.memory.toGiga()} \
             --nthreads=${task.cpus}
         """
 }

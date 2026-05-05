@@ -1,30 +1,30 @@
 workflow Parse_Design {
     take:
-        samplesheet
+    samplesheet
 
     main:
-        Channel
-            .fromPath( samplesheet, checkIfExists: true )
-            .splitCsv( header:true, sep:',' )
-            .map { createSampleReadsChannel(it) }
-            .set { ch_samples }
+    ch_samples = Channel
+        .fromPath(samplesheet, checkIfExists: true)
+        .splitCsv(header: true, sep: ',')
+        .map { createSampleReadsChannel(it) }
 
     emit:
-        samples = ch_samples
+    samples = ch_samples
 }
 
 
 // create a list of data from the csv
-def createSampleReadsChannel(LinkedHashMap row) {
+def createSampleReadsChannel(row: LinkedHashMap) {
     // store metadata in a Map
-    LinkedHashMap metadata = extractInfoFromSampleName(row.sampleName)
-    metadata.readType   = row.reads2 ? "paired" : "single"
+    def metadata: LinkedHashMap = extractInfoFromSampleName(row.sampleName)
+    metadata.readType = row.reads2 ? "paired" : "single"
 
     // store reads in a list
     def reads = []
-    if(metadata.readType == "single") {
+    if (metadata.readType == "single") {
         reads = [file(row.reads1)]
-    } else {
+    }
+    else {
         reads = [file(row.reads1), file(row.reads2)]
     }
 
@@ -38,7 +38,7 @@ def createSampleReadsChannel(LinkedHashMap row) {
  * @param sampleName The FASTQ sample name from the samplesheet.
  * @return LinkedHashMap of cleaned sample name, sample number, and lane.
  */
-def extractInfoFromSampleName(String sampleName) {
+def extractInfoFromSampleName(sampleName: String) {
     def match = sampleName =~ /^(.*)_S(\d+)_L(\d\d\d)/
 
     return [sampleName: match[0][1], sampleNumber: match[0][2], lane: match[0][3]]

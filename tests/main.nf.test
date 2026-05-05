@@ -39,8 +39,8 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) not supplied
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
-            assert workflow.stderr.contains("* Missing required parameter(s): projectTitle")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains('* Missing required parameter(s): projectTitle')
         }
 
     }
@@ -64,7 +64,7 @@ nextflow_pipeline {
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
             assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
-            assert workflow.stderr.contains("* --projectTitle (project title): Project title can ony contain alphanumeric characters, '.', '_', or '-'.")
+            assert workflow.stderr.contains('''* --projectTitle (project title): "project title" does not match regular expression [^[a-zA-Z0-9._-]+$] (Project title can only contain alphanumeric characters, '.', '_', or '-'.)''')
         }
 
     }
@@ -88,7 +88,7 @@ nextflow_pipeline {
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
             assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
-            assert workflow.stderr.contains("* --projectTitle (project/title): Project title can ony contain alphanumeric characters, '.', '_', or '-'.")
+            assert workflow.stderr.contains('''* --projectTitle (project/title): "project/title" does not match regular expression [^[a-zA-Z0-9._-]+$] (Project title can only contain alphanumeric characters, '.', '_', or '-'.)''')
         }
 
     }
@@ -111,8 +111,8 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) not supplied
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
-            assert workflow.stderr.contains("* Missing required parameter(s): samplesheet")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains('* Missing required parameter(s): samplesheet')
         }
 
     }
@@ -135,7 +135,7 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
         }
 
     }
@@ -158,7 +158,7 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
         }
 
     }
@@ -181,8 +181,8 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
-            assert workflow.stderr.contains("* Missing required parameter(s): genome")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains('* Missing required parameter(s): genome')
         }
 
     }
@@ -205,8 +205,8 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
-            assert workflow.stderr.contains("* Missing required parameter(s): annotations")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains('* Missing required parameter(s): annotations')
         }
 
     }
@@ -230,8 +230,8 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
-            assert workflow.stderr.contains("* Missing required parameter(s): mapQuantTool")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains('* Missing required parameter(s): mapQuantTool')
         }
 
     }
@@ -255,15 +255,15 @@ nextflow_pipeline {
             assert workflow.failed
             assert workflow.exitStatus == 1
             // nf-schema validateParameters() throws error messages on stdout and stderr when required param(s) don't match pattern
-            assert workflow.stdout.contains("ERROR ~ Validation of pipeline parameters failed!")
-            assert workflow.stderr.contains("* --mapQuantTool (trimmomatic): Map and quantify tool must be one of the valid options: [cellranger].")
+            assert workflow.stdout.contains('ERROR ~ Validation of pipeline parameters failed!')
+            assert workflow.stderr.contains('* --mapQuantTool (trimmomatic): Expected any of [[cellranger, split_pipe]] (Map and quantify tool must be one of the valid options.)')
         }
-
     }
 
 
     test("main.nf succeeds with default `nf_test` params") {
         tag 'full'
+        tag 'fastp'
 
         // instantiate instances of helper classes
         def readsLane1 = new Reads10xChromiumV3Lane1()
@@ -281,18 +281,30 @@ nextflow_pipeline {
             assert workflow.success
             /*
                 Count number succeeded tasks: 9 + (1 * (n fastq pairs)) + (3 * (n samples))
-                    - 2: Unzip genome and annotations
-                    - 2: Count bases in genome -- Index fasta and count
-                    - 2: Build reference genome index -- mkgtf and mkref
-                    - 1 * (n fastsq pairs): FastQC -- Raw only
-                    - 1 * (n samples): Count bases in reads -- Raw only
-                    - 1 * (n samples): Cat reads
-                    - 1 * (n samples): Map and quantify reads -- Done in one step
-                    - 1: QC reads
-                    - 1: QC mappings and quantification
-                    - 1: QC full
+                    Check quality:
+                        - 1: Count bases in genome
+                        - 3: MultiQC -- Reads, mappings and quantification, and full
+                        - 1 * (n fastq pairs): FastQC -- Raw
+                        - 1 * (n fastq pairs): FastQC Summary -- Raw
+                    Map and quantify reads:
+                        - 2: Build reference genome index -- mkgtf and mkref
+                        - 1 * (n samples): Map and quantify reads -- Done in one step
+                    Prepare inputs:
+                        - 2: Unzip genome and annotations
+                        - 1: Index fasta
+                    Process reads:
+                        - 1 * (n samples): Cat reads
             */
-            assert workflow.trace.succeeded().size() == 14
+            Integer expectedSucceededTraces = new TraceSucceededMainWorkflow(
+                [
+                    constants: 9,
+                    nFastqPairs: 2,
+                    fastqPairsTasks: 2,
+                    nSamples: 1,
+                    samplesTasks: 2,
+                ]
+            ).size()
+            assert workflow.trace.succeeded().size() == expectedSucceededTraces
 
             // test raw FastQC html reports and zip files published to reports dir
             assert path("${params.publishDirReports}/.fastqc/${readsLane1.getStemName()}_raw_R1_fastqc.html").exists()
@@ -329,7 +341,6 @@ nextflow_pipeline {
 
     test("main.nf succeeds -- Parse split-pipe") {
         tag 'full'
-        tag 'current'
 
         // instantiate instances of helper classes
 
@@ -345,17 +356,31 @@ nextflow_pipeline {
             // test workflow status
             assert workflow.success
             /*
-                Count number succeeded tasks: 7 + (1 * (n fastq pairs)) + (2 * (n samples))
-                    - 2: Unzip genome and annotations
-                    - 2: Count bases in genome -- Index fasta and count
-                    - 1: Build reference genome index -- mkref
-                    - 1 * (n fastsq pairs): FastQC -- Raw only
-                    - 1 * (n samples): Count bases in reads -- Raw only
-                    - 1 * (n samples): Cat reads
-                    - 1: QC reads
-                    - 1: QC full
+                Count number succeeded tasks:
+                    Check quality:
+                        - 1: Count bases in genome
+                        - 2: MultiQC -- Reads and full
+                        - 1 * (n fastq pairs): FastQC -- Raw
+                        - 1 * (n fastq pairs): FastQC Summary -- Raw
+                    Map and quantify reads:
+                        - 1: Build reference genome index -- mkref
+                        - 1 * (n samples): Map and quantify reads -- Done in one step
+                    Prepare inputs:
+                        - 2: Unzip genome and annotations
+                        - 1: Index fasta
+                    Process reads:
+                        - 1 * (n samples): Cat reads
             */
-            assert workflow.trace.succeeded().size() == 11
+            Integer expectedSucceededTraces = new TraceSucceededMainWorkflow(
+                [
+                    constants: 7,
+                    nFastqPairs: 2,
+                    fastqPairsTasks: 2,
+                    nSamples: 1,
+                    samplesTasks: 1,
+                ]
+            ).size()
+            assert workflow.trace.succeeded().size() == expectedSucceededTraces
         }
 
     }

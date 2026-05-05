@@ -1192,7 +1192,7 @@
 
 
 <h1 id="params">Params</h1>
-<p>A Nextflow pipeline for base NGS analysis.</p>
+<p>A Nextflow pipeline for single cell RNA-seq analysis built on utia-gc/ngs.</p>
 <h2 id="inputoutput-options">Input/output options</h2>
 <table>
 <thead>
@@ -1267,6 +1267,14 @@
 <td>Method for publishing files. <details><summary>Help</summary><small>This sets the default mode for publishing files. See the <code>mode</code> section of the <a href="https://www.nextflow.io/docs/latest/process.html#publishdir"><code>publishDir</code> Nextflow docs</a> for details about the options.</small></details></td>
 <td><code>string</code></td>
 <td>copy</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>exploratoryTag</code></td>
+<td>Tag to add to the end of the exploratory directory name to describe what's being explored. Use in conjunction with the <code>exploratory</code> profile.</td>
+<td><code>string</code></td>
+<td></td>
 <td></td>
 <td></td>
 </tr>

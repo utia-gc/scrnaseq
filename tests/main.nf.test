@@ -263,7 +263,7 @@ nextflow_pipeline {
 
     test("main.nf succeeds with default `nf_test` params") {
         tag 'full'
-        tag 'fastp'
+        tag 'cellranger'
 
         // instantiate instances of helper classes
         def readsLane1 = new Reads10xChromiumV3Lane1()
@@ -341,6 +341,7 @@ nextflow_pipeline {
 
     test("main.nf succeeds -- Parse split-pipe") {
         tag 'full'
+        tag 'split-pipe'
 
         // instantiate instances of helper classes
 

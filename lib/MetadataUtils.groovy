@@ -49,7 +49,13 @@ static LinkedHashMap intersectListOfMetadata(metadataList) {
  * @return String lane number that is three characters long and padded by 0s if necessary.
  */
 static String padLaneWithZeros(lane) {
-  def numberZerosToAdd = 3 - lane.toString().length()
-  
-  return "0" * numberZerosToAdd + lane.toString()
+    def numberZerosToAdd = 3 - lane.toString().length()
+
+    if (numberZerosToAdd >= 1) {
+        def laneString = "0" * numberZerosToAdd + lane.toString()
+    } else {
+        def laneString = lane.toString()
+    }
+
+    return laneString
 }

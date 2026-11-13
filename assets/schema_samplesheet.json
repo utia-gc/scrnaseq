@@ -5,7 +5,9 @@
   "type": "array",
   "items": {
     "type": "object",
-    "required": ["sampleName"],
+    "required": [
+      "sampleName"
+    ],
     "properties": {
       "sampleName": {
         "type": "string",
@@ -14,8 +16,11 @@
         "meta": "sampleName"
       },
       "lane": {
-        "type": ["integer", "string"],
-        "errorMessage": "Sequencing lane for the library, must be 0-999. Also excepts literal three digit lane numbers, e.g. '001'",
+        "type": [
+          "integer",
+          "string"
+        ],
+        "errorMessage": "Sequencing lane for the library.",
         "meta": "lane"
       },
       "reads1": {
@@ -27,8 +32,8 @@
       "reads2": {
         "type": "string",
         "pattern": "^\\S+\\.f(ast)?q\\.gz$",
-          "format": "file-path",
-          "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
+        "format": "file-path",
+        "errorMessage": "FastQ file for reads 2 cannot contain spaces and must have extension '.fq.gz' or '.fastq.gz'"
       }
     }
   }

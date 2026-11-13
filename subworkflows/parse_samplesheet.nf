@@ -11,28 +11,19 @@ include { samplesheetToList } from 'plugin/nf-schema'
  */
 workflow Parse_Samplesheet {
     take:
-        samplesheet
+    samplesheet
 
     main:
-        ch_parsedSamplesheetRows = Channel
-            // use nf-schema to handle samplesheet parsing
-            // and create a channel of parsed samplesheet rows
-            .fromList(
-                samplesheetToList(samplesheet, "${projectDir}/assets/schema_samplesheet.json")
-            )
-            /* Filter samples into buckets of excluded or retained samples
-            Excluded samples go into the first bucket with a condition they violate.
-            Otherwise, they fall down into the retained bucket.
-            */
-            .branch { meta, reads1, reads2 ->
-                // capture excluded samples
-                // exclude sample if the reads1 file is empty
-                reads1IsEmpty: isEmpty(file(reads1))
-                // catch retained samples
-                retained: true
-            }
+    ch_parsedSamplesheetRows = Channel
+        .fromList(
+            samplesheetToList(samplesheet, "${projectDir}/assets/schema_samplesheet.json")
+        )
+        .branch { meta, reads1, reads2 ->
+            reads1IsEmpty: isEmpty(file(reads1))
+            retained: true
+        }
 
-        /* Reshape nf-schema output for retained samples to desired shape.
+    /* Reshape nf-schema output for retained samples to desired shape.
         This gives a shape of:
             [
                 metadata map,
@@ -41,19 +32,17 @@ workflow Parse_Samplesheet {
             ]
         This general shape is passed into pretty much everything downstream that takes reads in fastq format.
         */
-        ch_samples = ch_parsedSamplesheetRows.retained
-            .map { meta, reads1, reads2 ->
-                createSampleReadsChannel(meta, reads1, reads2)
-            }
+    ch_samples = ch_parsedSamplesheetRows.retained.map { meta, reads1, reads2 ->
+        createSampleReadsChannel(meta, reads1, reads2)
+    }
 
-        // log warnings for excluded samples
-        ch_parsedSamplesheetRows.reads1IsEmpty
-            .map { meta, reads, reads2 ->
-                log.warn("SAMPLE EXCLUSION: '${MetadataUtils.buildStemName(meta)}' excluded from analysis for empty reads1 file.")
-            }
+    // log warnings for excluded samples
+    ch_parsedSamplesheetRows.reads1IsEmpty.map { meta, reads, reads2 ->
+        log.warn("SAMPLE EXCLUSION: '${MetadataUtils.buildStemName(meta)}' excluded from analysis for empty reads1 file.")
+    }
 
     emit:
-        samples = ch_samples
+    samples = ch_samples
 }
 
 
@@ -70,30 +59,32 @@ workflow Parse_Samplesheet {
  */
 def createSampleReadsChannel(meta, r1, r2) {
     // store metadata in a Map shallow copied from the input meta map
-    metadata = meta.clone()
+    def metadata = meta.clone()
     // fill in required metadata
     metadata.trimStatus = "raw"
-    metadata.readType   = r2.isEmpty() ? "single" : "paired"
-    if(metadata.lane) {
+    metadata.readType = r2.isEmpty() ? "single" : "paired"
+    if (metadata.lane) {
         // update lane number to properly formatted string, i.e. exactly three digits padded with 0s if necessary
         metadata.lane = MetadataUtils.padLaneWithZeros(metadata.lane)
-    } else {
+    }
+    else {
         // if no lane number, remove the lane key
         metadata.remove('lane')
     }
 
     // store reads in lists
     def reads1 = file(r1)
-    if(r2.isEmpty()) {
+    if (r2.isEmpty()) {
         def emptyFileName = "${reads1.simpleName}.NOFILE"
         def emptyFilePath = file("${workDir}").resolve(emptyFileName)
         file("${projectDir}/assets/NO_FILE").copyTo(emptyFilePath)
-        reads2 = file(emptyFilePath)
-    } else {
-        reads2 = file(r2)
+        def reads2 = file(emptyFilePath)
+    }
+    else {
+        def reads2 = file(r2)
     }
 
-    return [ metadata, reads1, reads2 ]
+    return [metadata, reads1, reads2]
 }
 
 
@@ -106,7 +97,7 @@ def createSampleReadsChannel(meta, r1, r2) {
  *
  * @return A boolean indicating whether or not the fastq file is empty.
 */
-def isEmpty(Path fq) {
+def isEmpty(fq: Path) {
     // set decimal representation of first byte of empty file
     def emptyDecimal = -1
     def firstByteOfFastq = readFirstByte(fq)
@@ -122,7 +113,7 @@ def isEmpty(Path fq) {
  *
  * @return An integer representation of the first byte of the file.
 */
-def readFirstByte(Path f) {
+def readFirstByte(f: Path) {
     f.withInputStream { fis ->
         new java.util.zip.GZIPInputStream(fis).withStream { gis ->
             return gis.read()

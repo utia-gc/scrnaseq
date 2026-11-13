@@ -17,8 +17,8 @@ include { split_pipe_mkref } from '../modules/split-pipe/split_pipe_mkref'
  * @param genomeFasta The reference genome fasta file.
  * @param gtf The reference annotations GTF file.
  * @param sampleList The samples list for Parse split-pipe.
- * @param map_quantify_tool The tool for mapping and quantification.
- * @return map_quantify_log The log file from mapping and quantification that can be used as direct input for MultiQC.
+ * @param mapQuantifyTool The tool for mapping and quantification.
+ * @return mapQuantifyLog The log file from mapping and quantification that can be used as direct input for MultiQC.
  */
 workflow MAP_QUANTIFY_READS {
     take:
@@ -26,18 +26,18 @@ workflow MAP_QUANTIFY_READS {
     genomeFasta
     gtf
     sampleList
-    map_quantify_tool
+    mapQuantifyTool
 
     main:
-    if (map_quantify_tool.toUpperCase() == 'CELLRANGER') {
+    if (mapQuantifyTool.toUpperCase() == 'CELLRANGER') {
         Cellranger_Map_Count(
             reads,
             genomeFasta,
             gtf,
         )
-        ch_map_quantify_log = Cellranger_Map_Count.out.map_count_log
+        ch_mapQuantifyLog = Cellranger_Map_Count.out.map_count_log
     }
-    else if (map_quantify_tool.toUpperCase() == 'SPLIT_PIPE') {
+    else if (mapQuantifyTool.toUpperCase() == 'SPLIT_PIPE') {
         split_pipe_mkref(
             genomeFasta,
             gtf,
@@ -64,9 +64,9 @@ workflow MAP_QUANTIFY_READS {
             split_pipe_mkref.out.genome_index,
         )
 
-        ch_map_quantify_log = Channel.empty()
+        ch_mapQuantifyLog = Channel.empty()
     }
 
     emit:
-    map_quantify_log = ch_map_quantify_log
+    mapQuantifyLog = ch_mapQuantifyLog
 }

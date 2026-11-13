@@ -49,14 +49,14 @@ workflow {
             ch_sample_list,
             params.mapQuantTool
         )
-        ch_map_quantify_log = MAP_QUANTIFY_READS.out.map_quantify_log
-        ch_map_quantify_log
-            .dump(tag: 'ch_map_quantify_log', pretty: true)
+        ch_mapQuantifyLog = MAP_QUANTIFY_READS.out.mapQuantifyLog
+        ch_mapQuantifyLog
+            .dump(tag: 'ch_mapQuantifyLog', pretty: true)
 
         CHECK_QUALITY(
             ch_reads_raw,
             ch_genome_index,
-            ch_map_quantify_log,
+            ch_mapQuantifyLog,
             "${params.projectTitle}"
         )
 }

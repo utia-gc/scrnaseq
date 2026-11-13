@@ -350,6 +350,7 @@ nextflow_pipeline {
                 publishDirReports = "${outputDir}/reports"
                 publishDirData    = "${outputDir}/data"
                 mapQuantTool      = 'split_pipe'
+                sampleList        = ''
             }
         }
 
@@ -370,7 +371,7 @@ nextflow_pipeline {
                         - 2: Unzip genome and annotations
                         - 1: Index fasta
                     Process reads:
-                        - 1 * (n samples): Cat reads
+                        - 0
             */
             Integer expectedSucceededTraces = new TraceSucceededMainWorkflow(
                 [
@@ -382,6 +383,9 @@ nextflow_pipeline {
                 ]
             ).size()
             assert workflow.trace.succeeded().size() == expectedSucceededTraces
+
+            // test all-sample outputs are made
+            assert path("${params.publishDirData}/quant/split-pipe/combined/all-sample/").exists()
         }
 
     }

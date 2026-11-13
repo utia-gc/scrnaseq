@@ -43,9 +43,7 @@ workflow MAP_QUANTIFY_READS {
             gtf,
         )
         split_pipe_all(
-            reads.map { meta, reads ->
-                return [meta, reads[0], reads[1]]
-            },
+            reads,
             split_pipe_mkref.out.genome_index,
             sampleList,
         )

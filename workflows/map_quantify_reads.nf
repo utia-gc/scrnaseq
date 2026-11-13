@@ -1,7 +1,7 @@
 include { Cellranger_Map_Count } from '../subworkflows/cellranger_map_count.nf'
 
-include { split_pipe_all   } from '../modules/split-pipe/split_pipe_all'
-include { split_pipe_comb  } from '../modules/split-pipe/split_pipe_comb'
+include { split_pipe_all } from '../modules/split-pipe/split_pipe_all'
+include { split_pipe_comb } from '../modules/split-pipe/split_pipe_comb'
 include { split_pipe_mkref } from '../modules/split-pipe/split_pipe_mkref'
 
 /**
@@ -22,58 +22,51 @@ include { split_pipe_mkref } from '../modules/split-pipe/split_pipe_mkref'
  */
 workflow MAP_QUANTIFY_READS {
     take:
-        reads
-        genomeFasta
-        gtf
-        sampleList
-        map_quantify_tool
+    reads
+    genomeFasta
+    gtf
+    sampleList
+    map_quantify_tool
 
     main:
-        switch ( map_quantify_tool.toUpperCase() ) {
-            case 'CELLRANGER':
-                Cellranger_Map_Count(
-                    reads,
-                    genomeFasta,
-                    gtf
-                )
-                ch_map_quantify_log = Cellranger_Map_Count.out.map_count_log
-                break
+    if (map_quantify_tool.toUpperCase() == 'CELLRANGER') {
+        Cellranger_Map_Count(
+            reads,
+            genomeFasta,
+            gtf,
+        )
+        ch_map_quantify_log = Cellranger_Map_Count.out.map_count_log
+    }
+    else if (map_quantify_tool.toUpperCase() == 'SPLIT_PIPE') {
+        split_pipe_mkref(
+            genomeFasta,
+            gtf,
+        )
+        split_pipe_all(
+            reads.map { meta, reads ->
+                return [meta, reads[0], reads[1]]
+            },
+            split_pipe_mkref.out.genome_index,
+            sampleList,
+        )
 
-            case 'SPLIT_PIPE':
-                split_pipe_mkref(
-                    genomeFasta,
-                    gtf
-                )
-                split_pipe_all(
-                    reads.map { meta, reads ->
-                        return [ meta, reads[0], reads[1] ]
-                    },
-                    split_pipe_mkref.out.genome_index,
-                    sampleList
-                )
-
-                // combine outputs from multiple sublibraries
-                // collect each individual sublibrary into a list of sublibraries
-                ch_parse_sublibraries = split_pipe_all.out.outs
-                    .collect(
-                        // get sublibrary only -- lose the metadata
-                        { metadata, sublibrary ->
-                            return sublibrary
-                        },
-                        // sort based on file name
-                        sort: { a, b ->
-                            a.name <=> b.name
-                        }
-                    )
-                split_pipe_comb(
-                    ch_parse_sublibraries,
-                    split_pipe_mkref.out.genome_index
-                )
-
-                ch_map_quantify_log = Channel.empty()
-                break
+        // combine outputs from multiple sublibraries
+        // collect each individual sublibrary into a list of sublibraries
+        ch_parse_sublibraries = split_pipe_all.out.outs.collect(
+            sort: { a, b ->
+                a.name <=> b.name
+            }
+        ) { metadata, sublibrary ->
+            return sublibrary
         }
+        split_pipe_comb(
+            ch_parse_sublibraries,
+            split_pipe_mkref.out.genome_index,
+        )
+
+        ch_map_quantify_log = Channel.empty()
+    }
 
     emit:
-        map_quantify_log = ch_map_quantify_log
+    map_quantify_log = ch_map_quantify_log
 }

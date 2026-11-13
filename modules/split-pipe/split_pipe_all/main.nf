@@ -10,25 +10,25 @@ process split_pipe_all {
     label 'max_time'
 
     input:
-        tuple val(metadata), path(reads1), path(reads2)
-        path index
-        path sampleList
+    tuple val(metadata), path(reads1), path(reads2)
+    path index
+    path sampleList
 
     output:
-        tuple val(metadata), path("${metadata.sampleName}"), emit: outs
+    tuple val(metadata), path("${metadata.sampleName}"), emit: outs
 
     script:
-        String args = new Args(task.ext).buildArgsString()
+    def args: String = new Args(task.ext).buildArgsString()
 
-        """
+    """
         split-pipe \\
             --mode all \\
-            --nthreads "${task.cpus}" \\
-            --genome_dir "${index}" \\
-            --fq1 "${reads1}" \\
-            --fq2 "${reads2}" \\
-            --samp_list "${sampleList}" \\
-            --output_dir "${metadata.sampleName}" \\
+            --nthreads ${task.cpus} \\
+            --genome_dir ${index} \\
+            --fq1 ${reads1} \\
+            --fq2 ${reads2} \\
+            --samp_list ${sampleList} \\
+            --output_dir ${metadata.sampleName} \\
             ${args}
         """
 }

@@ -74,14 +74,15 @@ def createSampleReadsChannel(meta, r1, r2) {
 
     // store reads in lists
     def reads1 = file(r1)
+    def reads2
     if (r2.isEmpty()) {
         def emptyFileName = "${reads1.simpleName}.NOFILE"
         def emptyFilePath = file("${workDir}").resolve(emptyFileName)
         file("${projectDir}/assets/NO_FILE").copyTo(emptyFilePath)
-        def reads2 = file(emptyFilePath)
+        reads2 = file(emptyFilePath)
     }
     else {
-        def reads2 = file(r2)
+        reads2 = file(r2)
     }
 
     return [metadata, reads1, reads2]
@@ -97,7 +98,7 @@ def createSampleReadsChannel(meta, r1, r2) {
  *
  * @return A boolean indicating whether or not the fastq file is empty.
 */
-def isEmpty(fq: Path) {
+def isEmpty(fq) {
     // set decimal representation of first byte of empty file
     def emptyDecimal = -1
     def firstByteOfFastq = readFirstByte(fq)
@@ -113,7 +114,7 @@ def isEmpty(fq: Path) {
  *
  * @return An integer representation of the first byte of the file.
 */
-def readFirstByte(f: Path) {
+def readFirstByte(f) {
     f.withInputStream { fis ->
         new java.util.zip.GZIPInputStream(fis).withStream { gis ->
             return gis.read()

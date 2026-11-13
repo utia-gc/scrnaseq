@@ -51,11 +51,7 @@ static LinkedHashMap intersectListOfMetadata(metadataList) {
 static String padLaneWithZeros(lane) {
     def numberZerosToAdd = 3 - lane.toString().length()
 
-    if (numberZerosToAdd >= 1) {
-        def laneString = "0" * numberZerosToAdd + lane.toString()
-    } else {
-        def laneString = lane.toString()
-    }
+    def laneString = (numberZerosToAdd < 1) ? lane.toString() : "0" * numberZerosToAdd + lane.toString()
 
     return laneString
 }
